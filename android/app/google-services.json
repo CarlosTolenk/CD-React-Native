@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "882428881680",
+    "firebase_url": "https://control-diamante-1519145676088.firebaseio.com",
+    "project_id": "control-diamante-1519145676088",
+    "storage_bucket": "control-diamante-1519145676088.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882428881680:android:1138f6b7d6dd2012",
+        "android_client_info": {
+          "package_name": "cdiamante.controldiamante.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "882428881680-629f7m06bm6k2fmva0bhsu9ckp4v0ea2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSrRXm0-C23DDQP3i8eR-NXYiJ5V_pLqo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
