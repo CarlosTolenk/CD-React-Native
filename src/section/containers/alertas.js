@@ -3,7 +3,8 @@ import {
 	Image,
 	Text,
     View, 
-    StyleSheet
+    StyleSheet,
+    ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux';
 
@@ -30,41 +31,52 @@ class Alerta extends Component {
         this.state = {
             hours: 0,
             minutes: 0,
-            milliseconds: -1
-        }
+            milliseconds: -1,
+            loading: true
+        }     
       
     }
 
-    startInterval(){
-
-    }
-
-       
-    componentWillMount(){
+    componentDidMount(){
         // Obteniendo el Timer de BD
         dateOn = this.props.alerta[0].updateTimestamp
         let countDown = moment(dateOn).format('YYYY-MM-DD hh:mm:ss');
-        console.log(countDown);  
+        // console.log(countDown);  
 
         // Sumando 12 h al Timmer
-        console.log('Sumandoooo....!!')
+        // console.log('Sumandoooo....!!')
         dateInFuture = moment(dateOn).add(35, 'minutes');
-        // console.log(dateInFuture);        
+        // console.log(dateInFuture);   
+        
+        //Obtener el CountDown
+        let onTime = new moment()  
+        //Obtener el CountDown          
+        countDown = moment.duration(dateInFuture.diff(onTime));  
+        this.startInterval(countDown._data.milliseconds)   
 
-
-        timer = setInterval( ()=> {
-            let onTime = new moment()  
-            //Obtener el CountDown          
-            countDown = moment.duration(dateInFuture.diff(onTime));           
-            this.setState({
-                hours: countDown._data.hours,
-                minutes: countDown._data.minutes,
-                milliseconds: countDown._data.milliseconds
-            })        
-            
-            console.log(this.state.hours);
-        },1000)
     }
+
+    startInterval(start){
+        if(start > 0 ){
+            timer = setInterval( ()=> {
+                let onTime = new moment()  
+                //Obtener el CountDown          
+                countDown = moment.duration(dateInFuture.diff(onTime));           
+                this.setState({
+                    hours: countDown._data.hours,
+                    minutes: countDown._data.minutes,
+                    milliseconds: countDown._data.milliseconds
+                })                  
+                // console.log(this.state.minutes);
+            },1000)
+        }else{
+            // console.log("No se inicio el timmer");
+            this.setState({
+                loading: false
+            })
+        }     
+    }
+       
 
     componentWillUnmount() {
         console.log('COMPONENTWILLUNMOUNT')
@@ -95,11 +107,23 @@ class Alerta extends Component {
                             </View>
 
                         </CardView>   
-                    :null
-                }              
-             </View>
 
-           
+                    :
+                    <View>
+                        {
+                            this.state.loading  == true ?
+                                <ActivityIndicator size="large" color="#1565c0" />
+                            :null
+                        }
+                    </View>
+                    //  <View style={styles.indicatorFlat}>
+                        // <ActivityIndicator size="large" color="#1565c0" animating={false} />
+              
+                    
+                    
+                    
+                }              
+             </View>          
           
         )
     }
@@ -138,6 +162,10 @@ const styles = StyleSheet.create({
         marginLeft: 1,
         padding: 1,
         fontSize: 16,
+    },
+    indicatorFlat:{
+        flex:1,
+        padding:5
     }
   })
 
