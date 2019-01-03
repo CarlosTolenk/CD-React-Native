@@ -15,6 +15,10 @@ let update = true;
 
 class Website extends Component{
 
+  static navigationOptions = {
+    header: null
+  }
+
     constructor(props) {
       super(props);
       this.state = { canGoBack: false, loading: true };      

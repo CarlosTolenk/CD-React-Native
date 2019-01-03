@@ -58,7 +58,14 @@ const images = [
 
 ];
 
+
+
+
 class Contactos extends Component {
+
+  static navigationOptions = {
+    header: null
+  }
 
   constructor( props ) {
 		super( props );
@@ -386,14 +393,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   cardView:{
-    margin: 0,
-    marginVertical: -5,
-    paddingHorizontal: 0,
-    paddingBottom: 15,
-    marginBottom: -5,
+    flex:1,
+    margin: 5,
+    marginBottom: 2
+  
   },
   cardViewSocial:{
-    paddingBottom: 25,
+    flex:1,
+    margin: 5,
+    marginBottom: 2
   },
   container: {  
     flexDirection: 'row',
@@ -463,8 +471,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',   
     alignContent: 'space-around',
-    paddingBottom: 10,
-    marginLeft: -10,
+    marginVertical: 10
   },
   
   titleBanco:{
@@ -488,6 +495,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingHorizontal: 16,
     paddingBottom: 10,
+    marginBottom:20
   },
   social:{
     marginBottom: 16,

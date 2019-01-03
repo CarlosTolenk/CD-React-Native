@@ -96,8 +96,7 @@ class CanalTv extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 50,
-    paddingVertical: "18%",
+    paddingVertical: 15,
     justifyContent: 'space-around',
     alignContent: 'space-around',
     backgroundColor: '#022c43',
@@ -108,15 +107,18 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',  
     // backgroundColor: 'yellow',
-    marginTop: "5%",
+    marginTop: "4%",
   },
   sectionAside:{
-    flex:2,
+    flex:1,
     // marginTop: "15%",
     // backgroundColor: 'red',
     justifyContent: 'center',
     alignContent: 'flex-start',
     // alignItems: 'center',
+  },
+  sectionLeft:{
+    marginBottom: 10
   },
   sectionRight:{
     marginBottom: 10
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',  
     color: 'white',
     fontSize: 16,
-    marginBottom: 15
+    marginBottom: 10
   
   },
   contentFinal:{
@@ -143,10 +145,8 @@ const styles = StyleSheet.create({
   },
   actionButton:{
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: -55,
-    marginTop: -55,
-    backgroundColor: 'green'
+    paddingHorizontal: 20,  
+    paddingVertical: 20,  
   },
   logo: {   
     alignItems: 'center',

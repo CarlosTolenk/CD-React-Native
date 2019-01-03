@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'space-around',
         alignContent: 'space-around',
+        margin: 10
        
     },
     containerTitle:{
@@ -52,13 +53,13 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'center',
         alignContent: 'center',        
-        width: width-15,
+        width: width,
         borderLeftWidth: 7,
         borderLeftColor: '#1565c0',
         borderRightWidth: 7,
         borderRightColor: '#1565c0',    
         paddingHorizontal: 20,  
-        marginTop: -30,
+        // marginTop: -30,
     },
     diamanteIcon:{       
         width:52,
