@@ -22,6 +22,10 @@ function planes(state = {}, action) {
             return { ...state, ...action.payload }  
         }
 
+        case 'SET_ALERTA_LIST': {
+            return { ...state, ...action.payload }  
+        }
+
         case 'SET_NUMBER_DIAMANTE' : {
             return {...state, ...action.payload}
         }      

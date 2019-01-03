@@ -51,6 +51,7 @@ class Home extends Component {
         this.anuncios = firebase.firestore().collection('anuncios');         
         this.numeros = firebase.firestore().collection('numeros_seleccion');
         this.lineaDirecta = firebase.firestore().collection('lineas_directas');
+        this.alerta = firebase.firestore().collection('alerta');
         this.unsubscribe = null;     
     }
     
@@ -122,6 +123,21 @@ class Home extends Component {
                   }
               })
           });    
+
+
+        this.unsubscribe = this.alerta.onSnapshot((querySnapshot) =>{
+            let allAlertas = [];
+            querySnapshot.forEach((doc) =>{
+               allAlertas.push(doc.data());
+              });      
+  
+              this.props.dispatch({
+                  type: 'SET_ALERTA_LIST',
+                  payload: {
+                    allAlertas
+                  }
+              })
+          });   
           
           this.unsubscribe = this.numeros.onSnapshot((querySnapshot) =>{
             let AllNumeros = [];
@@ -150,10 +166,6 @@ class Home extends Component {
               })
 
               this.getStatusNotification(linea[0].numeros);
-
-           
-            
-             
              
           });          
 

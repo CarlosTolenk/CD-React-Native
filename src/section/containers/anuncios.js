@@ -19,6 +19,7 @@ import Orientation from 'react-native-orientation';
 
 //Component
 import CloseModalX from '../../section/components/closeModal';
+import Alerta from './alertas';
 
 // const { width, height } = Dimensions.get( "window" );
 // const width = 0;
@@ -106,6 +107,7 @@ class Anuncios extends Component {
 		const {isImageViewVisible, imageIndex} = this.state;
 
 		return <View style={{ flex: 1, backgroundColor: "white" }}>
+				<Alerta/>
 			<Masonry onMomentumScrollEnd={this.onScrollEnd.bind( this )}
 					 style={{ flex: 1}}
 					 columns={2} ref="list"
