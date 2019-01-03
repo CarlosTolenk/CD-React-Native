@@ -83,9 +83,9 @@ class ItemPlan extends Component{
                 }
                
             })
-        )
-        // console.log(this.props);
-    }
+        )      
+    }  
+    
 
     actionLike = () => {      
        
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
         alignContent: 'space-between',
         alignItems: 'center',
         padding: 10,
-        paddingBottom: 25,
+        paddingBottom: 10,
     }
 
 })

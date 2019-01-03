@@ -18,6 +18,7 @@ import firebase from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
 import { Header, HeaderBackButton } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
+
 import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import IconF from 'react-native-vector-icons/dist/FontAwesome';
@@ -35,25 +36,31 @@ const FACEBOOK_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAM
 
 function mapStateToProps(state) {
   return{
-      item: state.navigation.routes[0].routes[0].routes[1].params.item
+      // item: state.navigation.routes[0].routes[0].routes[1].params.item     
+
   }
 }
 
+let item = { }
+
+
+
 
 class Detalles extends Component {
-
 
   static navigationOptions = ({navigation}) => {
     return {     
       header: null 
 
     }
-}
+  }
+
+
 
   constructor() {
     super();
-    this.ref = firebase.firestore().collection('planes'); 
-    this.unsubscribe = null;  
+    // this.ref = firebase.firestore().collection('planes'); 
+    // this.unsubscribe = null;  
     
     this.state = {
        showNavTitle: true,     
@@ -66,18 +73,19 @@ class Detalles extends Component {
         NavigationActions.back({
             key: null
         })
-    )
+    )  
     return true
   }
   
   componentWillMount(){
     this.setState({
-        shared: this.props.item.total_shared
+        shared: item.total_shared
      })      
   }  
 
   componentDidMount() {   
       BackHandler.addEventListener('hardwareBackPress', this.onBackPress);   
+   
   }    
 
   componentWillUnmount(){
@@ -86,8 +94,8 @@ class Detalles extends Component {
 
   onShareItem = () => {
     Share.share({
-      title: this.props.nombre_plan, 
-      message: `Conoce nuestro nuevo plan que Control Diamante tiene para ti: ${this.props.item.nombre_plan}, por un valor de : ${this.props.item.precio}.
+      title: item.nombre_plan, 
+      message: `Conoce nuestro nuevo plan que Control Diamante tiene para ti: ${item.nombre_plan}, por un valor de : ${item.precio}.
 
       Descarga nuestra app para ver todo lo que tenemos preparado para ti Link: https://play.google.com/store/apps/details?id=cdiamante.controldiamante.com`,
     },
@@ -103,7 +111,7 @@ class Detalles extends Component {
               shared: this.state.shared + 1
           });
           
-          this.ref.doc(this.props.item.id).update({
+          this.ref.doc(item.id).update({
               total_shared: this.state.shared
            });
        }                  
@@ -119,12 +127,23 @@ class Detalles extends Component {
    )
   }
 
+  goBack = () => {
+    this.props.dispatch(
+      NavigationActions.navigate({
+          routeName: 'home'
+      })
+   )
+  }
+
 
 
 
   render() {
 
-    const {goBack} = this.props.navigation;
+    const { navigation } = this.props;
+    const itemPara = navigation.getParam('item', 'NO-ID');
+    item = itemPara;
+    console.log(item);
 
     return (
       <View style={{ flex: 1 }}>
@@ -135,7 +154,7 @@ class Detalles extends Component {
           maxOverlayOpacity={0.6}
           minOverlayOpacity={0.3}
           fadeOutForeground
-          renderHeader={() => <View style={styles.backImagen}><Image source={{uri: this.props.item.imagen_url}} style={styles.image} blurRadius={150} /></View>}
+          renderHeader={() => <View style={styles.backImagen}><Image source={{uri: item.imagen_url}} style={styles.image} blurRadius={3} /></View>}
           renderFixedForeground={() => (
             <Animatable.View
               style={styles.navTitleView}
@@ -145,8 +164,8 @@ class Detalles extends Component {
             >
               <View style={styles.sectionHeader}>
                 <StatusBar barStyle="light-content" backgroundColor={'transparent'} translucent/>
-                <HeaderBackButton style={styles.headerBack} tintColor={'white'}  onPress={() => goBack()}/> 
-                <Text style={styles.navTitle}  onPress={() => goBack()}>{this.props.item.nombre_plan} </Text>   
+                <HeaderBackButton style={styles.headerBack} tintColor={'white'}  onPress={() => this.props.navigation.goBack()}/> 
+                <Text style={styles.navTitle}  onPress={() => this.props.navigation.goBack()}>{item.nombre_plan} </Text>   
                 <View style={{width:20}}></View>
                         
               </View>
@@ -155,10 +174,10 @@ class Detalles extends Component {
           renderForeground={() => (
           <View style={{flex:1}}>
             <SafeAreaView style={{position: 'absolute', marginTop: 15}}>
-                <HeaderBackButton tintColor={'white'}  onPress={() => goBack()}/>                
+                <HeaderBackButton tintColor={'white'}  onPress={() => this.props.navigation.goBack()}/>                
             </SafeAreaView> 
             <View style={styles.titleContainer}>
-                <Text style={styles.imageTitle}>{this.props.item.nombre_plan}</Text>                        
+                <Text style={styles.imageTitle}>{item.nombre_plan}</Text>                        
             </View>
             <View style={styles.headerIcon}>
               <TouchableOpacity  onPress={this.onCallOffice} >
@@ -183,7 +202,7 @@ class Detalles extends Component {
           </TriggeringView>
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Efectividad</Text>
-            <Text style={styles.sectionContent}>{this.props.item.efectividad}</Text>         
+            <Text style={styles.sectionContent}>{item.efectividad}</Text>         
           </View>
           <View style={[styles.section, styles.sectionLarge]}>
             <Text style={styles.sectionTitle}>Detalles </Text>
@@ -193,48 +212,48 @@ class Detalles extends Component {
                   <Icon name="access-time" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Fecha de Publicación:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.fecha_publicacion}</Text>
+                <Text style={styles.itemInfo}>{item.fecha_publicacion}</Text>
               </View>
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   <Icon name="mail" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Total de Mensajes:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.cantidad_mensaje}</Text>
+                <Text style={styles.itemInfo}>{item.cantidad_mensaje}</Text>
               </View>
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   <IconF name="hashtag" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Números a Jugar:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.cantidad_numero}</Text>
+                <Text style={styles.itemInfo}>{item.cantidad_numero}</Text>
               </View>
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   <IconF name="calendar" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Duración:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.duracion}</Text>
+                <Text style={styles.itemInfo}>{item.duracion}</Text>
               </View>
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   <IconF name="building" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Loterias:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.loterias}</Text>
+                <Text style={styles.itemInfo}>{item.loterias}</Text>
               </View>
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   <Icon name="event-available" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Días de Entregas:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.dias_entreg}</Text>
+                <Text style={styles.itemInfo}>{item.dias_entreg}</Text>
               </View>
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   
                 </View>
-                <Text style={styles.precioItem}>{this.props.item.precio}</Text>
+                <Text style={styles.precioItem}>{item.precio}</Text>
               </View>      
               
  
@@ -252,7 +271,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     alignSelf: 'stretch',
     resizeMode: 'stretch',
-    opacity: 0.4,
+    opacity: 0.5,
   },
   backImagen:{
     backgroundColor: 'rgba(0,0,0,0.8)'

@@ -19,9 +19,12 @@ const MAX_HEIGHT = 250;
 
 function mapStateToProps(state) {
   return{
-      item: state.navigation.routes[0].routes[0].routes[1].params.item
+      // item: state.navigation.routes[0].routes[0].routes[1].params.item
   }
 }
+
+let item = { }
+
 
 
 class DetalleEvento extends Component {
@@ -52,8 +55,8 @@ class DetalleEvento extends Component {
 
   constructor() {
     super();
-    this.ref = firebase.firestore().collection('eventos_news'); 
-    this.unsubscribe = null;  
+    // this.ref = firebase.firestore().collection('eventos_news'); 
+    // this.unsubscribe = null;  
     this.state = {
        showNavTitle: true,
        shared:0,
@@ -71,7 +74,7 @@ class DetalleEvento extends Component {
 
     componentWillMount(){
       this.setState({
-          shared: this.props.item.total_shared
+          shared: item.total_shared
        })      
     }  
 
@@ -86,8 +89,8 @@ class DetalleEvento extends Component {
 
     onShareItem = () => {
       Share.share({
-        title: this.props.nombre_evento, 
-        message: `Conoce el nuevo evento que Control Diamante tiene para ti: ${this.props.item.nombre_evento}, Precio : ${this.props.item.precio}.
+        title: item.nombre_evento, 
+        message: `Conoce el nuevo evento que Control Diamante tiene para ti: ${item.nombre_evento}, Precio : ${item.precio}.
         
         Descarga nuestra app para ver todo lo que tenemos preparado para ti Link: https://play.google.com/store/apps/details?id=cdiamante.controldiamante.com`,
       },
@@ -103,7 +106,7 @@ class DetalleEvento extends Component {
                 shared: this.state.shared + 1
             });
             
-            this.ref.doc(this.props.item.id).update({
+            this.ref.doc(item.id).update({
                 total_shared: this.state.shared
              });
          }            
@@ -121,7 +124,10 @@ class DetalleEvento extends Component {
 
   render() {
 
-    const {goBack} = this.props.navigation;
+    const { navigation } = this.props;
+    const itemPara = navigation.getParam('item', 'NO-ID');
+    item = itemPara;
+    console.log(item);
 
     return (
       <View style={{ flex: 1 }}>
@@ -132,7 +138,7 @@ class DetalleEvento extends Component {
           maxOverlayOpacity={0.6}
           minOverlayOpacity={0.3}
           fadeOutForeground
-          renderHeader={() => <View style={styles.backImagen}><Image source={{uri: this.props.item.image_url}} style={styles.image} /></View>}
+          renderHeader={() => <View style={styles.backImagen}><Image source={{uri: item.image_url}} style={styles.image} /></View>}
           renderFixedForeground={() => (
             <Animatable.View
               style={styles.navTitleView}
@@ -142,8 +148,8 @@ class DetalleEvento extends Component {
             >
               <View style={styles.sectionHeader}>
                 <StatusBar barStyle="light-content" backgroundColor={'transparent'} translucent/>         
-                <HeaderBackButton style={styles.headerBack} tintColor={'white'}  onPress={() => goBack()}/> 
-                <Text style={styles.navTitle}  onPress={() => goBack()}>{this.props.item.nombre_evento} </Text>   
+                <HeaderBackButton style={styles.headerBack} tintColor={'white'}  onPress={() => this.props.navigation.goBack()}/> 
+                <Text style={styles.navTitle}  onPress={() => this.props.navigation.goBack()}>{item.nombre_evento} </Text>   
                 <View style={{width:20}}></View>
                         
               </View>
@@ -152,10 +158,10 @@ class DetalleEvento extends Component {
           renderForeground={() => (
           <View style={{flex:1}}>
             <SafeAreaView style={{position: 'absolute', marginTop: 15}}>
-                <HeaderBackButton tintColor={'white'}  onPress={() => goBack()}/>                
+                <HeaderBackButton tintColor={'white'}  onPress={() => this.props.navigation.goBack()}/>                
             </SafeAreaView> 
             <View style={styles.titleContainer}>
-                <Text style={styles.imageTitle}>{this.props.item.nombre_evento}</Text>                        
+                <Text style={styles.imageTitle}>{item.nombre_evento}</Text>                        
             </View>
             <View style={styles.headerIcon}>
               <TouchableOpacity  onPress={this.onCallOffice} >
@@ -179,7 +185,7 @@ class DetalleEvento extends Component {
           </TriggeringView>
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Descripción</Text>
-            <Text style={styles.sectionContent}>{this.props.item.descripcion}</Text>
+            <Text style={styles.sectionContent}>{item.descripcion}</Text>
           </View>
           <View style={[styles.section, styles.sectionLarge]}>
             <Text style={styles.sectionTitle}>Detalles</Text>
@@ -189,28 +195,28 @@ class DetalleEvento extends Component {
                   <Icon name="event-available" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Fecha:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.fecha_evento}</Text>
+                <Text style={styles.itemInfo}>{item.fecha_evento}</Text>
               </View>
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   <Icon name="access-time" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Hora:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.hora}</Text>
+                <Text style={styles.itemInfo}>{item.hora}</Text>
               </View>
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   <IconF name="building" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Lugar:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.lugar}</Text>
+                <Text style={styles.itemInfo}>{item.lugar}</Text>
               </View>
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   <Icon name="place" size={20} color="#0E3F77" />
                   <Text style={styles.titleInfo}>Ciudad:</Text>
                 </View>
-                <Text style={styles.itemInfo}>{this.props.item.ciudad}</Text>
+                <Text style={styles.itemInfo}>{item.ciudad}</Text>
               </View>
             
             
@@ -219,7 +225,7 @@ class DetalleEvento extends Component {
                 <View style={styles.itemTitle}>
                   
                 </View>
-                <Text style={styles.precioItem}>{this.props.item.precio}</Text>
+                <Text style={styles.precioItem}>{item.precio}</Text>
               </View>
              
               {/* <Icon name="mail" size={30} color="#900" />
