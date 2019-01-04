@@ -140,7 +140,6 @@ class Detalles extends Component {
   }
 
   checkoutFormualario = () => {
-
     this.props.dispatch(
       NavigationActions.navigate({
           routeName: 'Formulario',

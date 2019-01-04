@@ -15,10 +15,13 @@ import Player from './screens/containers/video-container';
 import Radio from './screens/containers/radio';
 import Contactos from './screens/containers/contactos';
 import Website from './screens/containers/website';
+import Formulario from './screens/containers/formulario';
+import Verificacion  from './screens/containers/verificacion';
+import WebPaypal from './screens/containers/web-paypal';
 
 //Library
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Formulario from './screens/containers/formulario';
+
 
 
 const Main = createStackNavigator(
@@ -26,6 +29,8 @@ const Main = createStackNavigator(
         Home: Home,
         Detalles: Detalles,
         Formulario: Formulario,
+        Verificacion: Verificacion,
+        WebPaypal: WebPaypal,
         Loteria: TabViewLoteria,
         Evento: Evento,
         

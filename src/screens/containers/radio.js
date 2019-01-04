@@ -41,8 +41,14 @@ let widthButton = width*0.23;
 let fontIcon = widthButton*0.8;
 
 
-const url = "http://radio7.domint.net:8194/;stream.mp3";
-// const url = "http://radio7.domint.net:8194/listen.pls"
+// const url = "http://radio7.domint.net:8194/;stream.mp3";
+const url = "http://radio7a.domint.net:8194/;stream.mp3"
+
+// http://radio7a.domint.net:8194     
+// http://radio7a.domint.net:8194/listen.m3u
+// http://radio7a.domint.net:8194/listen.pls
+
+// http://radio7a.domint.net:8194/;stream.mp3
 
 
 

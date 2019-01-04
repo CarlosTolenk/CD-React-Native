@@ -56,13 +56,17 @@ let options = {
 class Formulario extends Component {
     
     static navigationOptions = {
-        title: 'Formulario',
+        title: 'Formulario de Registro',
         headerStyle: {
           backgroundColor: '#1565c0',
+          paddingTop: 45,  
+          paddingBottom: 25,  
+   
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: 'bold',          
+          fontWeight: 'bold',  
+          
         },
     };
 
@@ -97,11 +101,20 @@ class Formulario extends Component {
     let price = parseInt(clear, 10)
     informacion.amount = price;
     informacion.detalles = item
-    console.log(informacion);
+    console.log("Navegando");
 
-    
+    this.props.dispatch(
+      NavigationActions.navigate({
+          routeName: 'Verificacion',
+          params: {
+            informacion      
+          }         
+      })
+    )  
 
   }
+
+
 
  
 

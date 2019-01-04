@@ -21,9 +21,6 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.github.yamill.orientation.OrientationPackage; 
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import br.com.vizir.rn.paypal.PayPalPackage;
-
-
 
 
 //END NECESSARY
@@ -51,8 +48,7 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private static final int PAY_PAL_REQUEST_ID = 9; 
-  private PayPalPackage payPalPackage; 
+
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -74,9 +70,7 @@ public class MainApplication extends Application implements ReactApplication {
         new RNFirebasePackage(),
         new VectorIconsPackage(),
         new ReactVideoPackage(),
-        new OrientationPackage(),
-        new PayPalPackage(PAY_PAL_REQUEST_ID),
-        
+        new OrientationPackage(),        
 
         
         // add/remove these packages as appropriate
