@@ -6,6 +6,8 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 
 
+
+
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -19,6 +21,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.github.yamill.orientation.OrientationPackage; 
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import br.com.vizir.rn.paypal.PayPalPackage;
 
 
 
@@ -48,6 +51,9 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
+  private static final int PAY_PAL_REQUEST_ID = 9; 
+  private PayPalPackage payPalPackage; 
+
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
@@ -56,7 +62,9 @@ public class MainApplication extends Application implements ReactApplication {
 
     @SuppressLint("MissingPermission")
     @Override
-    protected List<ReactPackage> getPackages() {
+    protected List<ReactPackage> getPackages() {   
+    
+
       return Arrays.asList(
         new MainReactPackage(),     
 
@@ -67,6 +75,8 @@ public class MainApplication extends Application implements ReactApplication {
         new VectorIconsPackage(),
         new ReactVideoPackage(),
         new OrientationPackage(),
+        new PayPalPackage(PAY_PAL_REQUEST_ID),
+        
 
         
         // add/remove these packages as appropriate
@@ -103,5 +113,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-  }
+  } 
+
+
 }

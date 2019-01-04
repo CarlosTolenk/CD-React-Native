@@ -18,12 +18,14 @@ import Website from './screens/containers/website';
 
 //Library
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Formulario from './screens/containers/formulario';
 
 
 const Main = createStackNavigator(
     {
         Home: Home,
         Detalles: Detalles,
+        Formulario: Formulario,
         Loteria: TabViewLoteria,
         Evento: Evento,
         

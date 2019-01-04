@@ -34,4 +34,16 @@ public class MainActivity extends ReactActivity {
       intent.putExtra("newConfig", newConfig);
       this.sendBroadcast(intent);
   }
+
+//   @Override
+//   public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+//      super.onActivityResult(requestCode, resultCode, data);
+//      if (requestCode == PAY_PAL_REQUEST_ID) {
+//          payPalPackage.handleActivityResult(requestCode, resultCode, data); 
+//      } else {
+//          otherModulesHandlers(requestCode, resultCode, data);
+//      }
+//   }
+
+ 
 }

@@ -29,6 +29,7 @@
     "react-native-animatable": "1.3.0",
     "react-native-cardview": "2.0.2",
     "react-native-firebase": "^5.1.1",
+    "react-native-form-builder": "^1.0.16",
     "react-native-gesture-handler": "^1.0.12",
     "react-native-image-header-scroll-view": "0.8.2",
     "react-native-image-view": "2.1.2",
@@ -36,6 +37,7 @@
     "react-native-masonry-layout": "1.0.6",
     "react-native-modal-selector": "1.0.0",
     "react-native-orientation": "3.1.3",
+    "react-native-paypal": "https://github.com/sharafat/react-native-paypal.git",
     "react-native-picker-modal": "1.0.0",
     "react-native-splash-screen": "3.1.1",
     "react-native-swiper": "1.5.14",
@@ -47,6 +49,7 @@
     "react-navigation-redux-helpers": "2.0.9",
     "react-redux": "6.0.0",
     "redux": "4.0.1",
-    "redux-persist": "5.10.0"
+    "redux-persist": "5.10.0",
+    "tcomb-form-native": "^0.6.20"
   }
 }

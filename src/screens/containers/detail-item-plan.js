@@ -9,7 +9,8 @@ import { StyleSheet,
   BackHandler,
   Share,
   TouchableOpacity,
-  Picker  
+  Picker,
+  TouchableHighlight
   } from 'react-native';
 
 //Plugin
@@ -26,6 +27,9 @@ import PickerModal from 'react-native-picker-modal';
 
 const MIN_HEIGHT = 66;
 const MAX_HEIGHT = 250;
+
+
+const {width, height} = Dimensions.get('window');
 
 const TWITTER_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAABvFBMVEUAAAAA//8AnuwAnOsAneoAm+oAm+oAm+oAm+oAm+kAnuwAmf8An+0AqtUAku0AnesAm+oAm+oAnesAqv8An+oAnuoAneoAnOkAmOoAm+oAm+oAn98AnOoAm+oAm+oAmuoAm+oAmekAnOsAm+sAmeYAnusAm+oAnOoAme0AnOoAnesAp+0Av/8Am+oAm+sAmuoAn+oAm+oAnOoAgP8Am+sAm+oAmuoAm+oAmusAmucAnOwAm+oAmusAm+oAm+oAm+kAmusAougAnOsAmukAn+wAm+sAnesAmeoAnekAmewAm+oAnOkAl+cAm+oAm+oAmukAn+sAmukAn+0Am+oAmOoAmesAm+oAm+oAm+kAme4AmesAm+oAjuMAmusAmuwAm+kAm+oAmuoAsesAm+0Am+oAneoAm+wAmusAm+oAm+oAm+gAnewAm+oAle0Am+oAm+oAmeYAmeoAmukAoOcAmuoAm+oAm+wAmuoAneoAnOkAgP8Am+oAm+oAn+8An+wAmusAnuwAs+YAmegAm+oAm+oAm+oAmuwAm+oAm+kAnesAmuoAmukAm+sAnukAnusAm+oAmuoAnOsAmukAqv9m+G5fAAAAlHRSTlMAAUSj3/v625IuNwVVBg6Z//J1Axhft5ol9ZEIrP7P8eIjZJcKdOU+RoO0HQTjtblK3VUCM/dg/a8rXesm9vSkTAtnaJ/gom5GKGNdINz4U1hRRdc+gPDm+R5L0wnQnUXzVg04uoVSW6HuIZGFHd7WFDxHK7P8eIbFsQRhrhBQtJAKN0prnKLvjBowjn8igenQfkQGdD8A7wAAAXRJREFUSMdjYBgFo2AUDCXAyMTMwsrGzsEJ5nBx41HKw4smwMfPKgAGgkLCIqJi4nj0SkhKoRotLSMAA7Jy8gIKing0KwkIKKsgC6gKIAM1dREN3Jo1gSq0tBF8HV1kvax6+moG+DULGBoZw/gmAqjA1Ay/s4HA3MISyrdC1WtthC9ebGwhquzsHRxBfCdUzc74Y9UFrtDVzd3D0wtVszd+zT6+KKr9UDX749UbEBgULIAbhODVHCoQFo5bb0QkXs1RAvhAtDFezTGx+DTHEchD8Ql4NCcSyoGJYTj1siQRzL/JKeY4NKcSzvxp6RmSWPVmZhHWnI3L1TlEFDu5edj15hcQU2gVqmHTa1pEXJFXXFKKqbmM2ALTuLC8Ak1vZRXRxa1xtS6q3ppaYrXG1NWjai1taCRCG6dJU3NLqy+ak10DGImx07LNFCOk2js6iXVyVzcLai7s6SWlbnIs6rOIbi8ViOifIDNx0uTRynoUjIIRAgALIFStaR5YjgAAAABJRU5ErkJggg==";
 
@@ -133,6 +137,18 @@ class Detalles extends Component {
           routeName: 'home'
       })
    )
+  }
+
+  checkoutFormualario = () => {
+
+    this.props.dispatch(
+      NavigationActions.navigate({
+          routeName: 'Formulario',
+          params: {
+              item      
+          }         
+      })
+    )     
   }
 
 
@@ -252,8 +268,37 @@ class Detalles extends Component {
               <View style={styles.itemDetalles}>
                 <View style={styles.itemTitle}>
                   
-                </View>
-                <Text style={styles.precioItem}>{item.precio}</Text>
+                </View>            
+                
+
+                <View style={styles.payment}>                
+                    <Text style={styles.precioItem}>{item.precio}</Text>
+
+
+                    <View style={styles.containerPayment}>
+                    <TouchableOpacity onPress={this.checkoutFormualario} style={styles.btnContainerPaypal}>
+                      <Image
+                        style={styles.buttonPaypal}
+                        source={require('../../../assets/paypal-logo.png')}
+                      />
+                     </TouchableOpacity>  
+
+                    <View style={styles.imgPayment}>
+
+                        <Image 
+                            style={styles.paymentImage}
+                            source={require('../../../assets/payments.png')}
+                    
+                        />  
+
+                     </View>      
+
+                    </View>
+
+                    
+                </View>    
+              
+             
               </View>      
               
  
@@ -294,15 +339,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row',   
     justifyContent: 'space-between',
     alignContent: 'space-between',
-    alignItems: 'center',
-   
+    alignItems: 'center',   
+  }, 
+  payment:{
+    flex: 1,
+    flexDirection: 'column',
+    marginTop: 10
   },
   headerBack:{      
     // marginTop: 20,
     justifyContent: 'center',
     alignContent: 'center',
-    alignItems: 'center', 
- 
+    alignItems: 'center',  
+  },
+  bntPaypalText:{
+    color: '#fff',
+    fontSize: 18,
+    padding: 2,
+    alignSelf: 'center', 
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnContainerPaypal:{
+    backgroundColor: '#e1e1e1',
+    borderRadius: 5,
+  },
+  buttonPaypal:{
+    width: 250,
+    height: 75,
+    resizeMode: 'contain',
+    alignSelf: 'center',  
   },
   sectionTitle: {
     fontSize: 20,
@@ -351,13 +417,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 24,
   },
-  precioItem:{
-    justifyContent: 'center',
-    alignContent: 'center',
-    paddingTop: 10,
+  precioItem:{  
+    textAlign: 'right',
+    marginBottom: 10,
     color: '#C83232',
-    fontSize: 20,
-    paddingRight: 20,
+    fontSize: 20,   
   },
   headerIcon:{   
     flexDirection: 'row',
@@ -367,6 +431,9 @@ const styles = StyleSheet.create({
   },
   iconsContent:{
     paddingHorizontal: 8,
+  },
+  containerPayment:{   
+    marginTop: 20,
   },
   navTitleView: {   
     height: MIN_HEIGHT,
@@ -383,10 +450,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: -45,
-    // paddingTop: 10,
-   
-  
-    
+    // paddingTop: 10,    
   },
   sectionLarge: {
     height: 600,
@@ -397,6 +461,10 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontWeight: 'bold'
+  },
+  paymentImage:{
+    resizeMode: 'stretch',
+    alignSelf: 'center',  
   },
 picker: {
     width: 100,

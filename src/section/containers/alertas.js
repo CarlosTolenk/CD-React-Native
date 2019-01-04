@@ -68,7 +68,7 @@ class Alerta extends Component {
                     milliseconds: countDown._data.milliseconds
                 })                  
                 // console.log(this.state.minutes);
-            },1000)
+            },10000)
         }else{
             // console.log("No se inicio el timmer");
             this.setState({
