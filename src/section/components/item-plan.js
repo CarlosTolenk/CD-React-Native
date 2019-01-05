@@ -241,9 +241,7 @@ class ItemPlan extends Component{
                          style={styles.logoIcon}
                          source={require('../../../assets/diamante-icon.png')}
                          />
-                        <Text style={styles.titleItem}>{this.props.nombre_plan}</Text>   
-                         
-                                       
+                        <Text style={styles.titleItem}>{this.props.nombre_plan}</Text>                                       
                     </View>
                    
                     <View style={styles.dateItem}>
@@ -312,32 +310,23 @@ const styles = StyleSheet.create({
     },
     cardView:{
         flex:1,
-        backgroundColor: '#F5FCFF',
-       
+        backgroundColor: '#F5FCFF',       
     },
-    MainContainer: {
- 
+    MainContainer: { 
         flex: 1,
         backgroundColor: '#F5FCFF',
         justifyContent: 'center',
-        alignItems: 'center',
-     
-      },
-     
-      cardViewStyle:{
-     
+        alignItems: 'center',     
+      },     
+      cardViewStyle:{     
         width: 250, 
-        height: 150,
-     
-      },
-     
-      cardView_InsideText:{
-     
+        height: 150,     
+      },     
+      cardView_InsideText:{     
         fontSize: 20, 
         color: '#000', 
         textAlign: 'center', 
-        marginTop: 50    
-     
+        marginTop: 50         
       },
     headerItem:{
         flex:1,
@@ -356,14 +345,12 @@ const styles = StyleSheet.create({
         width:32,
         height:32,
         marginRight: 5,
-        marginTop: 2,
-      
+        marginTop: 2,      
     },
     titleItem:{
         fontSize: 20,     
         color: '#626364',
         fontWeight: '400'
-
     },
     lineButtom:{
         position: 'relative',

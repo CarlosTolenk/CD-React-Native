@@ -102,8 +102,8 @@ def enableProguardInReleaseBuilds = false
 
 android {
 
-  // aptOptions.cruncherEnabled = false
-  // aaptOptions.useNewCruncher = false
+  // aptOptions.cruncherEnabled = true
+  // aaptOptions.useNewCruncher = true
  
 
 
