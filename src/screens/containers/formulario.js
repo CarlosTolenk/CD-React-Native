@@ -12,6 +12,7 @@ import {
 
 //Component
 import Cedula from '../../section/containers/input-cedula';
+import Celular from '../../section/containers/input-celular';
 
 //Plugin
 import {connect} from 'react-redux';
@@ -136,9 +137,10 @@ class Formulario extends Component {
         <View style={styles.container}>
 
           <Cedula/>
+          <Celular/>
 
           <View>
-            <Text style={styles.title}>Ingrese su cédula:</Text>
+            {/* <Text style={styles.title}>Ingrese su cédula:</Text>
              <View style={styles.containerTextInput}>
                 <Icon style={styles.Icon} name="account" size={30} color="#1565c0"/> 
                 <TextInput        
@@ -153,7 +155,7 @@ class Formulario extends Component {
                 keyboardType="number-pad"      
        
                 />  
-             </View>
+             </View> */}
             </View>
           
             {/* <Form
