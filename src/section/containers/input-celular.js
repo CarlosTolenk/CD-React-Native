@@ -20,12 +20,7 @@ import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
 import PhoneInput from 'react-native-phone-input';
 import CountryPicker from 'react-native-country-picker-modal';
-// import ModalPicker from 'react-native-modal-picker'
-
-const NORTH_AMERICA = ['CA', 'MX', 'US'];
-
-
-  
+// import ModalPicker from 'react-native-modal-picker'  
 
 
 class InputCell extends Component {
@@ -33,10 +28,11 @@ class InputCell extends Component {
     constructor(props) {
         super(props);
         this.state = {
-           cedula: '',
+           cell: '',
            length: 0,         
            color: '#1565c0',
-           cca2: 'US'        
+           cca2: 'do',
+           error: false        
           };     
           
           
@@ -59,21 +55,25 @@ class InputCell extends Component {
     
       selectCountry(country) {
         this.phone.selectCountry(country.cca2.toLowerCase());
-        this.setState({ cca2: country.cca2 });
+        this.setState({
+           cca2: country.cca2 ,
+           callingCode: country.callingCode
+          });
       }
 
-    formtedCedula = (text) => {
+    formtedCell = (text) => {
         this.setState({
-            color: '#1565c0'
+            color: '#1565c0',
+            error: false
          })  
         if(this.state.length <= text.length){
-          if(text.length == 3 || text.length == 4 ||  text.length == 11  || text.length == 12 ){
+          if(text.length == 3 || text.length == 4 ||  text.length == 7  || text.length == 8 ){
     
             if(text.length == 3){   
               console.log(text.length);
               text = `${text}-`
               this.setState({
-                cedula: text,
+                cell: text,
                 length : text.length
               }) 
             }  
@@ -92,36 +92,36 @@ class InputCell extends Component {
                 console.log(newText.length);
                 console.log('Completo'+newText)
                 this.setState({
-                  cedula: newText,
+                  cell: newText,
                   length : newText.length
                 }) 
               }    
             }  
         
     
-            if(text.length == 11){ 
+            if(text.length == 7){ 
               console.log(text.length);
               text = `${text}-`
               this.setState({    
-                cedula: text,
+                cell: text,
                 length : text.length
               }) 
             }  
      
-            if(text.length == 12){          
+            if(text.length == 8){          
               console.log(text.length);
-              if(text.charAt(11) == '-'){
+              if(text.charAt(7) == '-'){
                 console.log("No es necesario");   
               }else{  
                 console.log("Si es necesario");
-                let oldText = text.slice(0,11); 
-                let lastChartText = text.slice(11);
+                let oldText = text.slice(0,7); 
+                let lastChartText = text.slice(7);
                 console.log('Este son los caracteres viejos' + oldText); 
                 console.log('Este es el útimo caractet' + lastChartText); 
                 let newText = `${oldText}-${lastChartText}`  
                 console.log('Completo'+newText)
                 this.setState({
-                  cedula: newText,
+                  cell: newText,
                   length : newText.length  
                 }) 
               }    
@@ -130,7 +130,7 @@ class InputCell extends Component {
           }else{       
             console.log(text.length)   
             this.setState({
-              cedula: text,
+              cell: text,
               length : text.length
             })    
           } 
@@ -140,20 +140,20 @@ class InputCell extends Component {
     
         }else{
           console.log("Borando");
-          if(text.length == 4 || text.length == 12){
+          if(text.length == 4 || text.length == 8){
          
             let newText = text.substring(0, text.length -1)      
             console.log(newText.length);
     
             this.setState({ 
-              cedula: newText,
+              cell: newText,
               length : newText.length
             })
     
           }else{
             console.log(text.length);
             this.setState({
-              cedula: text,
+              cell: text,
               length : text.length
             })   
           }
@@ -161,121 +161,88 @@ class InputCell extends Component {
           
           if(text.length < 1){
             this.setState({
-                color: '#1565c0'
+                color: '#1565c0',
+                error: false
              })           
           }
         }
     }
 
-    endCedulaEditing = () => {
-       if(this.state.length == 13){
+    endCellEditing = () => {
+       if(this.state.length == 12){
         this.setState({
-            color: 'green'
+            color: 'green',
+            error: false
          })
        }else{
         this.setState({
-            color: 'red'
+            color: 'red',
+            error: true
          })
        }
+       console.log(this.state.cell); 
+       console.log(this.state.cca2);
       
     }
 
     render() {
         return(
-
-
-
-
-            <View>
-            {/* <Text style={styles.title}>Ingrese su cédula:</Text>
+          <View style={styles.container}>
+             <Text style={styles.title}>Ingrese su celular:</Text>
              <View style={styles.containerTextInput}>
-                <Icon style={styles.Icon} name="account" size={30} color={this.state.color}/> 
-                <TextInput        
-                onChangeText={(text) => this.formtedCedula(text)}
-                value={this.state.cedula}   
-                editable = {true}
-                maxLength = {13}
-                clearTextOnFocus = {true}
-                onEndEditing ={this.endCedulaEditing}
-                placeholder='031-1234567-6'
-                placeholderTextColor = '#888'
-                keyboardType="number-pad"      
-                underlineColorAndroid = {this.state.color}
-                style={styles.input}   
-                />  
-             </View> */}  
+              <PhoneInput
+                  ref={(ref) => {this.phone = ref;}}
+                  onPressFlag={this.onPressFlag}/>
+                
+                  <TextInput        
+                  onChangeText={(text) => this.formtedCell(text)}
+                  value={this.state.cell}   
+                  editable = {true}
+                  maxLength = {12}
+                  onFocus={this.props.onFocusInput} 
+                  clearTextOnFocus = {true}
+                  onEndEditing ={this.endCellEditing}
+                  placeholder='809-555-5555' 
+                  placeholderTextColor = '#888'
+                  keyboardType="number-pad"      
+                  underlineColorAndroid = {this.state.color}
+                  style={styles.input}   
+                  />                 
+             </View>  
 
-{/* 
-        <View style={styles.container}>
-         
+              <CountryPicker
+                ref={(ref) => {
+                  this.countryPicker = ref;
+                }}
+                  onChange={value => this.selectCountry(value)}
+                  translation="eng"  
+                  cca2={this.state.cca2}            
+              >
+                <View />
+              </CountryPicker>
 
-
-            <PhoneInput
-                ref={(ref) => { this.phone = ref; }}
-                onPressFlag={this.onPressFlag}
-            />
-
-        </View> */}
-
-<View style={styles.container}>
-        <PhoneInput
-          ref={(ref) => {
-            this.phone = ref;
-          }}
-          onPressFlag={this.onPressFlag}
-        />
-
-        <CountryPicker
-          ref={(ref) => {
-            this.countryPicker = ref;
-          }}
-          onChange={value => this.selectCountry(value)}
-          translation="eng"
-          cca2={this.state.cca2}
-        >
-          <View />
-        </CountryPicker>
-      </View>
-    </View>
-
-
-
-         
-
-          
-
-
-
-
-
-
-
-
-      
+            {
+              this.state.error ?
+              <Text style={styles.error}>**Formato inválido**</Text>  
+              :
+              null
+            }      
+         </View>     
 
         )
     }
-
-
-
-
-
 }
 
 
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        padding: 20,
-        paddingTop: 60,
-      },
+const styles = StyleSheet.create({
+  container:{
+    padding: 5,
+    marginBottom: 5,  
+  },
     title:{
        fontSize: 20,
-       fontWeight: 'bold',
-       marginBottom: 10,
-       
+       fontWeight: 'bold',    
     },
     input: {
       fontSize: 18, 
@@ -289,6 +256,11 @@ var styles = StyleSheet.create({
     },
     Icon:{
         alignSelf: 'center'
+    },
+    error:{
+      marginLeft:40, 
+      fontSize:14,
+      color: 'red'
     }
   });
 

@@ -3,28 +3,29 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight,
+  TouchableOpacity,
+  Picker,
   TextInput,
   StatusBar,
   Button,
   BackHandler,
+  Dimensions,
+  KeyboardAvoidingView
 } from 'react-native';
 
 //Component
 import Cedula from '../../section/containers/input-cedula';
 import Celular from '../../section/containers/input-celular';
+import Nombre  from '../../section/containers/input-nombre';
+import Passporte from '../../section/containers/input-passport';
 
 //Plugin
 import {connect} from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 
+const {width, height} = Dimensions.get('window');
 
-//Form
-// const t = require('tcomb-form-native');
-import t from 'tcomb-form-native';
-
-const Form = t.form.Form;
 
 let informacion = {
     amount: '',
@@ -36,77 +37,42 @@ let informacion = {
 };
 let item = {};
 
-let Gender = t.enums({
-  M: 'Cédula',
-  F: 'Pasaporte',
-  O: 'Otro'
-});
-
-// here we are: define your domain model
-let Person = t.struct({
-    Tipo: Gender,
-    Nombre_Completo: t.String,              // a required string
-    Identificación: t.Number,                 // an required string
-    Celular: t.Number,               // a required number     
-   
-});
-
-let options = {
-    fields: {
-        Nombre_Completo: {
-            help: 'Debes ingresar tu nombre completo', 
-        },
-        Identificación: {
-            help: 'Debes ingresar tu cédula o tu pasaporte'
-        },
-        Celular: {
-            help: 'Ejemplo +1809555555'
-        }
-
-    }
-}; // optional rendering options (see documentation)
-
 
 
 class Formulario extends Component {
     
-    static navigationOptions = {
-        title: 'Formulario de Registro',
-        headerStyle: {
-          backgroundColor: '#1565c0',
-          paddingTop: 45,  
-          paddingBottom: 25,  
-   
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',  
-          alignSelf: 'center'
-          
-        },
-    };   
-
+  static navigationOptions = ({navigation}) => {
+    return {     
+            title: `Formulario de Compra`,
+            headerStyle: {
+                backgroundColor: '#1565c0',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        };        
+  }  
   
   constructor(props) {
     super(props);
+    this.state = {
+      identificacion: 'cedula',
+      heightTop: 0
+    }
   }
 
   onPress = () =>  {
-    // call getValue() to get the values of the form
-    var value = this.refs.form.getValue();
-    if (value) { // if validation fails, value will be null     
-
-        informacion = {
-            amount: item.precio,
-            suscription: item.nombre_plan,
-            client: value.Nombre_Completo,
-            cedula: value.Identificación,
-            movil: value.Celular,
-            sku: 'PLAN'
-        }
+      informacion = {
+          amount: item.precio,
+          suscription: item.nombre_plan,
+          client: value.Nombre_Completo,
+          cedula: value.Identificación,
+          movil: value.Celular,
+          sku: 'PLAN'
+      }
      this.clearFormated(informacion);
-    }
-  }
+  }  
 
 
   clearFormated = (informacion) => {
@@ -126,6 +92,14 @@ class Formulario extends Component {
       })
     )
   }
+
+  onFocusInput = (target) => {
+    if(target == 'nombre')this.setState({heightTop: height/-3})
+    if(target == 'cedula') this.setState({heightTop: height/-8})   
+    if(target == 'celular')this.setState({heightTop: 0})     
+       
+    
+  }
  
 
   render() {
@@ -134,39 +108,54 @@ class Formulario extends Component {
     // console.log(item); 
 
     return ( 
-        <View style={styles.container}>
+      <KeyboardAvoidingView
+      // contentContainerStyle = {styles.keyboard}
+      keyboardVerticalOffset={this.state.heightTop}          
+      style = {styles.container}
+      behavior = "position" >      
 
-          <Cedula/>
-          <Celular/>
-
-          <View>
-            {/* <Text style={styles.title}>Ingrese su cédula:</Text>
-             <View style={styles.containerTextInput}>
-                <Icon style={styles.Icon} name="account" size={30} color="#1565c0"/> 
-                <TextInput        
     
-              
-       
-                maxLength = {13}
-            
+          <Nombre onFocusInput={() => {this.onFocusInput('nombre')}}  />
+          <View style={styles.containerPicker}>
+          <Text>Selecciona el tipo de documento de identidad</Text>
+            <Picker
+              selectedValue={this.state.identificacion}
+              style={styles.picker}  
+              onValueChange={(itemValue, itemIndex) => this.setState({identificacion: itemValue})}>
+              <Picker.Item label="Cédula" value="cedula" />
+              <Picker.Item label="Pasporte u Otra" value="identificacion" />
+            </Picker>
+          </View> 
+
+
+          {
+            this.state.identificacion == 'cedula' ?
+               <Cedula onFocusInput={() => {this.onFocusInput('cedula')}}  /> 
+               :
+               <Passporte onFocusInput={() => {this.onFocusInput('cedula')}} />   
+
+          }
+
          
-                placeholder='031-1234567-6'
-                placeholderTextColor = '#888'
-                keyboardType="number-pad"      
-       
-                />  
-             </View> */}
-            </View>
-          
-            {/* <Form
-                ref="form"
-                type={Person}
-                options={options}
-            /> */}
-            {/* <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#48BBEC'>
-            <Text style={styles.buttonText}>Enviar</Text>
-            </TouchableHighlight> */}
-        </View>
+        
+
+
+
+          <Celular onFocusInput={() => {this.onFocusInput('celular')}} />
+         
+
+
+
+
+
+    
+
+
+              <TouchableOpacity style={styles.button} onPress={this.onPress} underlayColor='#48BBEC' disabled={true}>
+              <Text style={styles.buttonText}>Enviar</Text>
+              </TouchableOpacity>      
+ 
+        </KeyboardAvoidingView>
     )
   }
 }
@@ -175,14 +164,22 @@ class Formulario extends Component {
 var styles = StyleSheet.create({
     container: {
       flex:1,     
-      marginTop: 50,
+      marginTop: 20,
       padding: 20,
       backgroundColor: '#fefefe',
+    },
+    containerPicker:{
+      marginVertical: 5,
     },
     buttonText: {
       fontSize: 18,
       color: 'white',
       alignSelf: 'center'
+    },
+    picker:{
+      // height: 50,
+      // width: 350,
+      color: '#1565c0' 
     },
     button: {
       height: 36,
@@ -190,10 +187,12 @@ var styles = StyleSheet.create({
       borderColor: '#48BBEC',
       borderWidth: 1,
       borderRadius: 8,
-      marginBottom: 10,
-      alignSelf: 'stretch',
+      marginTop: 15, 
       justifyContent: 'center'
-    }, 
+    },  
+    keyboard:{ 
+      marginTop: -50,   
+    } 
   });
 
 export default connect(null) (Formulario);

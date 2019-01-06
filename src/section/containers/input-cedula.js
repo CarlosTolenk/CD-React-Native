@@ -21,13 +21,15 @@ class InputCedula extends Component {
         this.state = {
            cedula: '',
            length: 0,         
-           color: '#1565c0'
+           color: '#1565c0',
+           error: false     
           };    
     }
 
     formtedCedula = (text) => {
         this.setState({
-            color: '#1565c0'
+            color: '#1565c0',
+            error: false
          })  
         if(this.state.length <= text.length){
           if(text.length == 3 || text.length == 4 ||  text.length == 11  || text.length == 12 ){
@@ -124,7 +126,8 @@ class InputCedula extends Component {
           
           if(text.length < 1){
             this.setState({
-                color: '#1565c0'
+                color: '#1565c0',
+                error: false
              })           
           }
         }
@@ -133,11 +136,13 @@ class InputCedula extends Component {
     endCedulaEditing = () => {
        if(this.state.length == 13){
         this.setState({
-            color: 'green'
+            color: 'green',
+            error: false
          })
        }else{
         this.setState({
-            color: 'red'
+            color: 'red',
+            error: true
          })
        }
       
@@ -145,17 +150,14 @@ class InputCedula extends Component {
 
     render() {
         return(
-
-
-
-
-            <View>
-            <Text style={styles.title}>Ingrese su cédula:</Text>
-             <View style={styles.containerTextInput}>
-                <Icon style={styles.Icon} name="account" size={30} color={this.state.color}/> 
+            <View style={styles.container}>
+             <Text style={styles.title}>Ingrese su cédula:</Text>
+             <View style={styles.containerTextInput}> 
+                <Icon style={styles.Icon} name="account-card-details" size={30} color={this.state.color}/>  
                 <TextInput        
                 onChangeText={(text) => this.formtedCedula(text)}
                 value={this.state.cedula}   
+                onFocus={this.props.onFocusInput}          
                 editable = {true}
                 maxLength = {13}
                 clearTextOnFocus = {true}
@@ -167,46 +169,26 @@ class InputCedula extends Component {
                 style={styles.input}   
                 />  
              </View>
-            </View>
-
-
-
-         
-
-          
-
-
-
-
-
-
-
-
-      
+               {
+                this.state.error ?
+                <Text style={styles.error}>**Formato inválido**</Text>  
+                :
+                 null
+               }
+            </View> 
 
         )
     }
-
-
-
-
-
 }
 
-
-
-var styles = StyleSheet.create({
-    container: {
-      flex:1,     
-      marginTop: 50,
-      padding: 20,
-      backgroundColor: '#fefefe',
-    },
+const styles = StyleSheet.create({  
+  container:{
+    padding: 5,
+    marginBottom: 5,  
+  },
     title:{
        fontSize: 20,
-       fontWeight: 'bold',
-       marginBottom: 10,
-       
+       fontWeight: 'bold',    
     },
     input: {
       fontSize: 18, 
@@ -215,13 +197,23 @@ var styles = StyleSheet.create({
       flex:1
     },
     containerTextInput:{ 
-      flexDirection: 'row',   
-          
+      flexDirection: 'row',             
     },
     Icon:{
-        alignSelf: 'center'
+        alignSelf: 'center',
+        marginRight: 10
+    },
+    error:{
+      marginLeft:40, 
+      fontSize:14,
+      color: 'red'
     }
   });
+
+
+
+
+   
 
 
   export default connect(null) (InputCedula);
