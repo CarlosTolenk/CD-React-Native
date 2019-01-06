@@ -4,19 +4,25 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
+  TextInput,
   StatusBar,
   Button,
   BackHandler,
 } from 'react-native';
 
+//Component
+import Cedula from '../../section/containers/input-cedula';
+
 //Plugin
 import {connect} from 'react-redux';
 import { NavigationActions } from 'react-navigation';
+import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 
 
 //Form
 // const t = require('tcomb-form-native');
 import t from 'tcomb-form-native';
+
 const Form = t.form.Form;
 
 let informacion = {
@@ -29,17 +35,25 @@ let informacion = {
 };
 let item = {};
 
+let Gender = t.enums({
+  M: 'Cédula',
+  F: 'Pasaporte',
+  O: 'Otro'
+});
+
 // here we are: define your domain model
 let Person = t.struct({
+    Tipo: Gender,
     Nombre_Completo: t.String,              // a required string
     Identificación: t.Number,                 // an required string
     Celular: t.Number,               // a required number     
+   
 });
 
 let options = {
     fields: {
         Nombre_Completo: {
-            help: 'Debes ingresar tu nombre completo'
+            help: 'Debes ingresar tu nombre completo', 
         },
         Identificación: {
             help: 'Debes ingresar tu cédula o tu pasaporte'
@@ -66,15 +80,14 @@ class Formulario extends Component {
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',  
+          alignSelf: 'center'
           
         },
-    };
-
-   
+    };   
 
   
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   onPress = () =>  {
@@ -110,30 +123,47 @@ class Formulario extends Component {
             informacion      
           }         
       })
-    )  
-
+    )
   }
-
-
-
  
 
   render() {
     const { navigation } = this.props;
      item = navigation.getParam('item', 'NO-ID');   
-    console.log(item);
+    // console.log(item); 
 
     return ( 
         <View style={styles.container}>
+
+          <Cedula/>
+
+          <View>
+            <Text style={styles.title}>Ingrese su cédula:</Text>
+             <View style={styles.containerTextInput}>
+                <Icon style={styles.Icon} name="account" size={30} color="#1565c0"/> 
+                <TextInput        
+    
+              
+       
+                maxLength = {13}
+            
+         
+                placeholder='031-1234567-6'
+                placeholderTextColor = '#888'
+                keyboardType="number-pad"      
+       
+                />  
+             </View>
+            </View>
           
-            <Form
+            {/* <Form
                 ref="form"
                 type={Person}
                 options={options}
-            />
-            <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#48BBEC'>
+            /> */}
+            {/* <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#48BBEC'>
             <Text style={styles.buttonText}>Enviar</Text>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
         </View>
     )
   }
@@ -142,7 +172,7 @@ class Formulario extends Component {
 
 var styles = StyleSheet.create({
     container: {
-      justifyContent: 'center',
+      flex:1,     
       marginTop: 50,
       padding: 20,
       backgroundColor: '#fefefe',
@@ -161,7 +191,7 @@ var styles = StyleSheet.create({
       marginBottom: 10,
       alignSelf: 'stretch',
       justifyContent: 'center'
-    }
+    }, 
   });
 
 export default connect(null) (Formulario);
