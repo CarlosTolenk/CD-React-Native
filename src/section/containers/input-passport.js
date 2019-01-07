@@ -18,13 +18,30 @@ import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 class InputPassporte extends Component {
 
     constructor(props) {
-        super(props);
-        this.state = {
-           identificación: '',
-           length: 0,         
-           color: '#1565c0',
-           error: false     
-          };    
+    super(props);
+     this.state = {
+        identificación: this.props.valueStart,
+        length: this.props.valueStart.length,         
+        color: '#1565c0',
+        error: false,
+        isComplete: false            
+        };    
+    }
+
+    componentDidMount(){
+        console.log("Montando el component" + this.state.identificación);
+        if(this.state.identificación.length >= 8){
+            this.setState({
+                color: 'green',
+                error: false,
+                isComplete: true   
+            })
+            this.props.isCorrect({
+                correct: true,
+                type: 'passporte',
+                text: this.state.identificación 
+            })
+        }
     }
 
     formtedCedula = (text) => {
@@ -32,7 +49,8 @@ class InputPassporte extends Component {
             identificación: text,
             length : text.length,
             color: '#1565c0',
-            error: false
+            error: false,
+            isComplete: false       
         })  
     }
 
@@ -40,13 +58,24 @@ class InputPassporte extends Component {
     if(this.state.length >= 8){
         this.setState({
             color: 'green',
-            error: false
+            error: false,
+            isComplete: true       
             })
+        this.props.isCorrect({
+            correct: true,
+            type: 'passporte',
+            text: this.state.identificación  
+        })
         }else{
         this.setState({
             color: 'red',
-            error: true
-            })
+            error: true,
+            isComplete: true       
+          })
+          this.props.isCorrect({
+            correct: false,
+            type: 'passporte',
+          })  
         }      
     }
 
@@ -59,7 +88,7 @@ class InputPassporte extends Component {
                 <TextInput  
                 onFocus={this.props.onFocusInput}       
                 onChangeText={(text) => this.formtedCedula(text)} 
-                value={this.state.cedula}   
+                value={this.state.identificación}   
                 editable = {true}           
                 clearTextOnFocus = {true}
                 onEndEditing ={this.endCedulaEditing}
@@ -67,11 +96,19 @@ class InputPassporte extends Component {
                 placeholderTextColor = '#888'                 
                 underlineColorAndroid = {this.state.color}
                 style={styles.input}   
-                />  
+                /> 
+                {
+                    this.state.isComplete ?                    
+                      this.state.error ? 
+                        <Icon style={styles.Icon} name="close" size={20} color={this.state.color}/>      
+                        :
+                        <Icon style={styles.Icon} name="check" size={20} color={this.state.color}/>  
+                    :null    
+                } 
              </View>
                {
                 this.state.error ?
-                <Text style={styles.error}>**Formato inválido**</Text>  
+                <Text style={styles.error}>**Debe contener al menos 8 caracteres**</Text>    
                 :
                  null
                }

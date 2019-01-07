@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  ScrollView,
   TouchableNativeFeedback,
   StatusBar,
   Button,
@@ -23,18 +24,20 @@ const {width, height} = Dimensions.get('window');
 
 class Verificación extends Component {
     
-  static navigationOptions = {
-    title: 'Verificación de Información',
-    headerStyle: {
-      backgroundColor: '#1565c0',
-      paddingTop: 45,  
-      paddingBottom: 25,  
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',               
-    },
-  };
+  static navigationOptions = ({navigation}) => {
+    return {     
+            title: `Verificación de Información`,
+            headerStyle: {
+                backgroundColor: '#1565c0',
+                height: 70,  
+                paddingTop: 10,
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        };        
+  }  
   
   constructor(props) {
     super(props);
@@ -58,6 +61,7 @@ class Verificación extends Component {
     console.log(item);
 
     return ( 
+      <ScrollView>
         <View style={styles.container}>
            <CardView
                     cardElevation={5}
@@ -118,8 +122,26 @@ class Verificación extends Component {
                  <View  style={styles.descriptionContainer}>
                   
                     <View style={styles.descriptionTextContainer}>
-                        <Text style={styles.titleInfo}>Identificación:</Text>
+                    {
+                      item.cedula ?
+                      <View>
+                        <Text style={styles.titleInfo}>Cédula:</Text>
                         <Text style={styles.titleCont}>{item.cedula}</Text>
+                      </View>                      
+                        :
+                        null
+                    }
+
+                    {
+                      item.identificacion ?  
+                      <View>
+                        <Text style={styles.titleInfo}>Identificación:</Text>
+                        <Text style={styles.titleCont}>{item.identificacion}</Text>
+                      </View>                      
+                        :
+                        null
+                    }                       
+                      
                         <Text style={styles.titleInfo}>Celular:</Text>
                         <Text style={styles.titleCont}>{item.movil}</Text>
 
@@ -132,11 +154,9 @@ class Verificación extends Component {
                  <Icon style={styles.iconPaypal} name="paypal" color="#fff" size={20}/>     
                Comprar Ahora
               </Text>
-           </TouchableHighlight>
-          
-          
-         
+           </TouchableHighlight>        
         </View>
+      </ScrollView>
     )
   }
 }

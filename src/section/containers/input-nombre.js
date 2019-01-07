@@ -22,7 +22,8 @@ class InputNombre extends Component {
            nombre: '',
            length: 0,         
            color: '#1565c0',
-           error: false     
+           error: false,
+           isComplete: false   
           };    
     }
 
@@ -31,21 +32,33 @@ class InputNombre extends Component {
             nombre: text,
             length : text.length,
             color: '#1565c0',
-            error: false
+            error: false,
+            isComplete: false     
         })  
-    }
+    } 
 
     endNombreEditing = () => {
        if(this.state.length >= 8){
         this.setState({
             color: 'green',
-            error: false
+            error: false,
+            isComplete: true   
          })
+         this.props.isCorrect({
+            correct: true,
+            type: 'nombre',
+            text: this.state.nombre  
+          })
        }else{
         this.setState({
             color: 'red',
-            error: true
+            error: true,
+            isComplete: true    
          })
+         this.props.isCorrect({
+            correct: false,
+            type: 'nombre',
+          }) 
        }
       
     }
@@ -68,6 +81,17 @@ class InputNombre extends Component {
                 underlineColorAndroid = {this.state.color}
                 style={styles.input}   
                 />  
+                {
+                    this.state.isComplete ?                    
+                      this.state.error ? 
+                        <Icon style={styles.Icon} name="close" size={20} color={this.state.color}/>      
+                        :
+                        <Icon style={styles.Icon} name="check" size={20} color={this.state.color}/>  
+                    :null    
+                }
+              
+
+
              </View>
                {
                 this.state.error ?
@@ -105,8 +129,8 @@ const styles = StyleSheet.create({
         marginBottom: 5,  
     },
     title:{
-       fontSize: 20,
-       fontWeight: 'bold',
+       fontSize: 18,
+       fontWeight: 'bold',      
     },
     input: {
       fontSize: 18, 
@@ -119,7 +143,8 @@ const styles = StyleSheet.create({
     },
     Icon:{
         alignSelf: 'center',
-        marginRight: 10
+        marginRight: 10,
+        marginTop: 5,
     },
     error:{
       marginLeft:40, 

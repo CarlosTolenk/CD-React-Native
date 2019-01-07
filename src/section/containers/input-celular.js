@@ -23,18 +23,23 @@ import CountryPicker from 'react-native-country-picker-modal';
 // import ModalPicker from 'react-native-modal-picker'  
 
 
+let codigoArea = 1;
+
 class InputCell extends Component {
 
     constructor(props) {
-        super(props);
-        this.state = {
-           cell: '',
-           length: 0,         
-           color: '#1565c0',
-           cca2: 'do',
-           error: false        
-          };     
-          
+      super(props);
+      this.state = {
+          plain: '',
+          cell: '',
+          length: 0,         
+          color: '#1565c0',
+          cca2: 'do',
+          callingCode: '1',
+          error: false,
+          isComplete: false,
+          correct: false            
+     };          
           
 
     this.onPressFlag = this.onPressFlag.bind(this);
@@ -55,22 +60,37 @@ class InputCell extends Component {
     
       selectCountry(country) {
         this.phone.selectCountry(country.cca2.toLowerCase());
-        this.setState({
-           cca2: country.cca2 ,
-           callingCode: country.callingCode
-          });
+        if(country.cca2 == 'DO'){  
+          codigoArea =  1;
+          this.setState({
+            cca2: country.cca2 ,
+            callingCode: '1'   
+           });
+        }else{
+          console.log("Cambiando el codigo" + country.callingCode) 
+          codigoArea =  country.callingCode;
+          this.setState({
+            cca2: country.cca2 ,
+            callingCode: country.callingCode
+           });
+        }
+
+        this.endCellEditing()
+     
       }
 
     formtedCell = (text) => {
         this.setState({
             color: '#1565c0',
-            error: false
+            error: false,
+            isComplete: false,
+            plain: text   
          })  
         if(this.state.length <= text.length){
           if(text.length == 3 || text.length == 4 ||  text.length == 7  || text.length == 8 ){
     
             if(text.length == 3){   
-              console.log(text.length);
+              // console.log(text.length);
               text = `${text}-`
               this.setState({
                 cell: text,
@@ -79,7 +99,7 @@ class InputCell extends Component {
             }  
     
             if(text.length == 4){   
-              console.log(text.length);
+              // console.log(text.length);
               if(text.charAt(3) == '-'){
                 console.log("No es necesario"); 
               }else{
@@ -100,7 +120,7 @@ class InputCell extends Component {
         
     
             if(text.length == 7){ 
-              console.log(text.length);
+              // console.log(text.length);
               text = `${text}-`
               this.setState({    
                 cell: text,
@@ -109,7 +129,7 @@ class InputCell extends Component {
             }  
      
             if(text.length == 8){          
-              console.log(text.length);
+              // console.log(text.length);
               if(text.charAt(7) == '-'){
                 console.log("No es necesario");   
               }else{  
@@ -128,10 +148,10 @@ class InputCell extends Component {
             }  
     
           }else{       
-            console.log(text.length)   
+            // console.log(text.length)   
             this.setState({
               cell: text,
-              length : text.length
+              length : text.length,   
             })    
           } 
     
@@ -139,11 +159,11 @@ class InputCell extends Component {
     
     
         }else{
-          console.log("Borando");
+          // console.log("Borando");
           if(text.length == 4 || text.length == 8){
          
             let newText = text.substring(0, text.length -1)      
-            console.log(newText.length);
+            // console.log(newText.length);
     
             this.setState({ 
               cell: newText,
@@ -151,10 +171,10 @@ class InputCell extends Component {
             })
     
           }else{
-            console.log(text.length);
+            // console.log(text.length);
             this.setState({
               cell: text,
-              length : text.length
+              length : text.length,    
             })   
           }
           
@@ -162,26 +182,42 @@ class InputCell extends Component {
           if(text.length < 1){
             this.setState({
                 color: '#1565c0',
-                error: false
+                error: false,
+                isComplete: false    
              })           
           }
-        }
-    }
+        }      
+    }  
 
     endCellEditing = () => {
-       if(this.state.length == 12){
+       if(this.state.length == 12){       
         this.setState({
             color: 'green',
-            error: false
+            error: false,
+            isComplete: true,
+            correct: true    
          })
+        this.props.isCorrect({
+          correct: true,
+          type: 'cell',
+          text: `+${codigoArea}${this.state.cell}` 
+        })
        }else{
         this.setState({
             color: 'red',
-            error: true
+            error: true,
+            isComplete: true,
+            correct: false    
          })
+         this.props.isCorrect({
+           correct: false,
+           type: 'cell',
+         }) 
        }
-       console.log(this.state.cell); 
-       console.log(this.state.cca2);
+
+    
+      //  console.log(this.state.cell); 
+      //  console.log(this.state.cca2);
       
     }
 
@@ -192,8 +228,7 @@ class InputCell extends Component {
              <View style={styles.containerTextInput}>
               <PhoneInput
                   ref={(ref) => {this.phone = ref;}}
-                  onPressFlag={this.onPressFlag}/>
-                
+                  onPressFlag={this.onPressFlag}/>                
                   <TextInput        
                   onChangeText={(text) => this.formtedCell(text)}
                   value={this.state.cell}   
@@ -207,7 +242,17 @@ class InputCell extends Component {
                   keyboardType="number-pad"      
                   underlineColorAndroid = {this.state.color}
                   style={styles.input}   
-                  />                 
+                  // isCorrect={this.props.isCorrect(this.state.isCorrect)}
+                  />     
+
+                  {
+                    this.state.isComplete ?                    
+                      this.state.error ? 
+                        <Icon style={styles.Icon} name="close" size={20} color={this.state.color}/>      
+                        :
+                        <Icon style={styles.Icon} name="check" size={20} color={this.state.color}/>  
+                    :null    
+                  }            
              </View>  
 
               <CountryPicker

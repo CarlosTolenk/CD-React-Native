@@ -17,19 +17,37 @@ import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 class InputCedula extends Component {
 
     constructor(props) {
-        super(props);
-        this.state = {
-           cedula: '',
-           length: 0,         
-           color: '#1565c0',
-           error: false     
-          };    
+      super(props);
+      this.state = {
+          cedula: this.props.valueStart,
+          length: this.props.valueStart.length,          
+          color: '#1565c0',
+          error: false ,
+          isComplete: false       
+        };    
+    }
+
+    componentDidMount(){
+      console.log("Montando el component");
+      if(this.state.cedula.length == 13){
+        this.setState({
+            color: 'green',
+            error: false,
+            isComplete: true   
+         })
+         this.props.isCorrect({
+          correct: true,
+          type: 'cedula',
+          text: this.state.cedula
+        })
+       }
     }
 
     formtedCedula = (text) => {
         this.setState({
             color: '#1565c0',
-            error: false
+            error: false,
+            isComplete: false   
          })  
         if(this.state.length <= text.length){
           if(text.length == 3 || text.length == 4 ||  text.length == 11  || text.length == 12 ){
@@ -96,7 +114,8 @@ class InputCedula extends Component {
             console.log(text.length)   
             this.setState({
               cedula: text,
-              length : text.length
+              length : text.length,
+              isComplete: false   
             })    
           } 
     
@@ -137,15 +156,25 @@ class InputCedula extends Component {
        if(this.state.length == 13){
         this.setState({
             color: 'green',
-            error: false
+            error: false,
+            isComplete: true   
          })
+         this.props.isCorrect({
+          correct: true,
+          type: 'cedula',
+          text: this.state.cedula
+        })
        }else{
         this.setState({
             color: 'red',
-            error: true
+            error: true,
+            isComplete: true   
          })
-       }
-      
+         this.props.isCorrect({
+          correct: false,
+          type: 'cedula',    
+        })
+       }      
     }
 
     render() {
@@ -168,6 +197,14 @@ class InputCedula extends Component {
                 underlineColorAndroid = {this.state.color}
                 style={styles.input}   
                 />  
+                  {
+                    this.state.isComplete ?                    
+                      this.state.error ? 
+                        <Icon style={styles.Icon} name="close" size={20} color={this.state.color}/>      
+                        :
+                        <Icon style={styles.Icon} name="check" size={20} color={this.state.color}/>  
+                    :null    
+                 }
              </View>
                {
                 this.state.error ?
