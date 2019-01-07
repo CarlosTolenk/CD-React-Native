@@ -83,7 +83,7 @@ class Formulario extends Component {
 
     if(this.state.cedula.length > 0)  cedula = this.state.cedula
     if(this.state.passport.length > 0) passport =  this.state.passport
-    if(item.cantidad_numero.length > 0){
+    if(item.cantidad_numero){
       sku = 'PLAN'
     }else{
       sku = 'EVENTO'

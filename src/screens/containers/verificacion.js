@@ -74,8 +74,14 @@ class Verificación extends Component {
                     
                         <Icon style={styles.iconDate} name="cart" color="#003c8f" size={20}/>                         
                         <Text style={styles.titleItem}>Artículo: 
-                        <Text style={styles.titleElement}>
-                             {item.detalles.nombre_plan}
+                        <Text style={styles.titleElement}>                      
+                             {
+                               item.detalles.nombre_plan ?
+                                item.detalles.nombre_plan
+                                : 
+                                item.detalles.nombre_evento
+                               
+                               }
                         </Text>                        
                        </Text>                                       
                     </View> 
@@ -85,13 +91,40 @@ class Verificación extends Component {
 
                  <View  style={styles.descriptionContainer}>
                     <View style={styles.descriptionImage}>
+                    {
+                      item.detalles.imagen_url ?
                       <Image source={{uri: item.detalles.imagen_url}} style={styles.image} />
+                      :
+                      <Image source={{uri: item.detalles.image_url}} style={styles.image} />
+                    }
+                      
                     </View>
                     <View style={styles.descriptionTextContainer}>
-                        <Text style={styles.titleInfo}>Cantidad de Mensajes:</Text>
-                        <Text style={styles.titleCont}>{item.detalles.cantidad_mensaje}</Text>
+                    {
+                       item.detalles.cantidad_mensaje ? 
+                       <View>
+                            <Text style={styles.titleInfo}>Cantidad de Mensajes:</Text>
+                            <Text style={styles.titleCont}>{item.detalles.cantidad_mensaje}</Text>
+                       </View>             
+                        :
+                        <View>
+                          <Text style={styles.titleInfo}>Fecha de Evento:</Text>
+                          <Text style={styles.titleCont}>{item.detalles.fecha_evento}</Text>
+                        </View>    
+                    }
+                    {
+                      item.detalles.duracion ?
+                      <View>
                         <Text style={styles.titleInfo}>Duración:</Text>
                         <Text style={styles.titleCont}>{item.detalles.duracion}</Text>
+                      </View> 
+                      :
+                      <View>
+                        <Text style={styles.titleInfo}>Lugar del Evento:</Text>
+                        <Text style={styles.titleCont}>{item.detalles.ciudad}</Text>  
+                       </View> 
+                    }                       
+                        
                         <Text style={styles.titleInfo}>Precio:</Text>
                         <Text style={styles.titleCont}>{item.detalles.precio}</Text>
 
@@ -229,6 +262,7 @@ const styles = StyleSheet.create({
     descriptionTextContainer:{
       flexDirection: 'column',
       padding: 10,
+      paddingLeft: 10,
     },
     titleInfo:{
       fontSize: 16,

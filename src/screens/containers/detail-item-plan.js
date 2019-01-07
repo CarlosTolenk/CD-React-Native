@@ -272,8 +272,6 @@ class Detalles extends Component {
 
                 <View style={styles.payment}>                
                     <Text style={styles.precioItem}>{item.precio}</Text>
-
-
                     <View style={styles.containerPayment}>
                     <TouchableOpacity onPress={this.checkoutFormualario} style={styles.btnContainerPaypal}>
                       <Image
@@ -283,21 +281,13 @@ class Detalles extends Component {
                      </TouchableOpacity>  
 
                     <View style={styles.imgPayment}>
-
                         <Image 
                             style={styles.paymentImage}
-                            source={require('../../../assets/payments.png')}
-                    
+                            source={require('../../../assets/payments.png')}                    
                         />  
-
-                     </View>      
-
-                    </View>
-
-                    
-                </View>    
-              
-             
+                     </View>
+                    </View>                    
+                </View>           
               </View>      
               
  

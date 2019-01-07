@@ -12,6 +12,7 @@ import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header
 import tvShowContent from '../../../assets/tvShowContent';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import IconF from 'react-native-vector-icons/dist/FontAwesome';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const MIN_HEIGHT = 66;
@@ -114,13 +115,24 @@ class DetalleEvento extends Component {
      });
     }
 
-    onCallOffice = () => {
-      this.props.dispatch(
-        NavigationActions.navigate({
-            routeName: 'Contactos'
-        })
-     )
-    }
+  onCallOffice = () => {
+    this.props.dispatch(
+      NavigationActions.navigate({
+          routeName: 'Contactos'
+      })
+    )
+  }
+
+  checkoutFormualario = () => {
+    this.props.dispatch(
+      NavigationActions.navigate({
+          routeName: 'Formulario',
+          params: {
+              item      
+          }         
+      })
+    )     
+  }
 
   render() {
 
@@ -225,15 +237,29 @@ class DetalleEvento extends Component {
                 <View style={styles.itemTitle}>
                   
                 </View>
-                <Text style={styles.precioItem}>{item.precio}</Text>
+      
               </View>
              
-              {/* <Icon name="mail" size={30} color="#900" />
-              <IconF name="hashtag" size={25} color="#900" />
-              <IconF name="calendar" size={25} color="#900" />
-              <IconF name="building" size={25} color="#900" />
-              <Icon name="event-available" size={30} color="#900" /> */}
+              <View style={styles.payment}>                
+                    <Text style={styles.precioItem}>{item.precio}</Text>
+                    <View style={styles.containerPayment}>
+                    <TouchableOpacity onPress={this.checkoutFormualario} style={styles.btnContainerPaypal}>
+                      <Image
+                        style={styles.buttonPaypal}
+                        source={require('../../../assets/paypal-logo.png')}
+                      />
+                     </TouchableOpacity>  
 
+                    <View style={styles.imgPayment}>
+                        <Image 
+                            style={styles.paymentImage}
+                            source={require('../../../assets/payments.png')}                    
+                        />  
+                     </View>
+                    </View>                    
+                </View>             
+
+       
               
           
              
@@ -368,11 +394,38 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: -45,
-    
+    marginLeft: -45,    
   },
   sectionLarge: {
     height: 600,
+  },
+  payment:{
+    flex: 1,
+    flexDirection: 'column',
+    marginTop: 10
+  },
+  precioItem:{  
+    textAlign: 'right',
+    marginBottom: 10,
+    color: '#C83232',
+    fontSize: 20,   
+  },
+  containerPayment:{   
+    marginTop: 20,
+  },
+  btnContainerPaypal:{
+    backgroundColor: '#e1e1e1',
+    borderRadius: 5,
+  },
+  buttonPaypal:{
+    width: 250,
+    height: 75,
+    resizeMode: 'contain',
+    alignSelf: 'center',  
+  },
+  paymentImage:{
+    resizeMode: 'stretch',
+    alignSelf: 'center',  
   },
 });
 
