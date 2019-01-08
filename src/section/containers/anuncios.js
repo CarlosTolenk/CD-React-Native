@@ -24,6 +24,8 @@ import Alerta from './alertas';
 // const { width, height } = Dimensions.get( "window" );
 // const width = 0;
 let columnWidth = 0;
+let loadAnuncion = false;
+
 
 
 
@@ -42,7 +44,8 @@ class Anuncios extends Component {
 			loading: false,
 			imageIndex: 0,
 			isImageViewVisible: false,   
-			modalVisible: false            
+			modalVisible: false,
+			loadAnuncion: false        
 		};
 	 
 	}
@@ -70,19 +73,23 @@ class Anuncios extends Component {
 		console.log(this.props.alerta);
 		console.log(this.props.list)
 	
+	
 		BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
 	}
 
 	componentDidUpdate(){
-		if(this.props.list){
-			this.load();
+		if(!loadAnuncion && this.props.list){
+			this.load();	
+			loadAnuncion = true;
+			console.log("CAmbiando ele staod");
 		}
 	
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		if (this.props.list !== nextProps.list) return true;	
-		// if (this.props.alerta !== nextProps.alerta) return true;			
+		if (this.props.list !== nextProps.list) return true;
+		if (this.props.alerta !== nextProps.alerta) return true;
+		if (this.state.modalVisible !== nextState.modalVisible) return true;			
 		return false;
 	}
 		
@@ -174,6 +181,30 @@ class Anuncios extends Component {
 			}
 		/>
 
+	  	<Modal
+				visible={this.state.modalVisible}
+				transparent={true}
+				onRequestClose={() => this.setState({ modalVisible: false })}      
+				>
+			
+				{/* <Text>Cerrar</Text> */}
+					<ImageViewer
+					imageUrls={this.props.list}
+					index={this.state.imageIndex}
+					enableSwipeDown={true}
+					renderIndicator={() => null}
+					onSwipeDown={() => {
+						this.setState({ modalVisible: false })
+					}}  
+					// renderHeader={(index) => <Text style={styles.headerImage}>{images[index].props.title}</Text>}           
+					
+					
+					/>
+					{
+					this.state.loading &&
+					<CloseModalX close={this.closeModal} />
+					}
+			</Modal>
 		
 		
 
