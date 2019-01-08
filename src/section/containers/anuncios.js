@@ -19,7 +19,7 @@ import Orientation from 'react-native-orientation';
 
 //Component
 import CloseModalX from '../../section/components/closeModal';
-import Alerta from './alertas';
+import Alerta from './alertas'; 
 
 // const { width, height } = Dimensions.get( "window" );
 // const width = 0;
@@ -29,7 +29,8 @@ let columnWidth = 0;
 
 function mapStateToProps(state) {
     return{
-        list: state.planes.allAnuncios
+		list: state.planes.allAnuncios,
+		alerta: state.planes.alertaSingle
     }
 }
 
@@ -55,10 +56,7 @@ class Anuncios extends Component {
 			const { width } = Dimensions.get( "window" ).height;
 			 columnWidth = ( width - 10 ) / 2 - 10;
 		}
-	 }
-	
-
-	
+	 }	
 	
 	onBackPress = () => {
 		this.setState({		
@@ -69,9 +67,27 @@ class Anuncios extends Component {
 	}
 
 	componentDidMount() {
-		this.load();
+		console.log(this.props.alerta);
+		console.log(this.props.list)
+	
 		BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
 	}
+
+	componentDidUpdate(){
+		if(this.props.list){
+			this.load();
+		}
+	
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		if (this.props.list !== nextProps.list) return true;	
+		// if (this.props.alerta !== nextProps.alerta) return true;			
+		return false;
+	}
+		
+	
+	
 
 	componentWillUnmount(){
 		BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
@@ -85,7 +101,7 @@ class Anuncios extends Component {
 		}) 
 	  }
 
-	load() {
+	load = () => {
 	  this.setState( { loading: true } );
 		if ( this.state.withHeight ) {
 			this.refs.list.addItemsWithHeight( this.props.list );
@@ -94,7 +110,7 @@ class Anuncios extends Component {
 		}		
 	}
 
-	onScrollEnd( event ) {
+	onScrollEnd = ( event ) => {
 		const scrollHeight = Math.floor( event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height );
 		const height = Math.floor( event.nativeEvent.contentSize.height );
 		if ( scrollHeight >= height ) {
@@ -107,76 +123,61 @@ class Anuncios extends Component {
 		const {isImageViewVisible, imageIndex} = this.state;
 
 		return <View style={{ flex: 1, backgroundColor: "white" }}>
-				<Alerta/>
-			<Masonry onMomentumScrollEnd={this.onScrollEnd.bind( this )}
-					 style={{ flex: 1}}
-					 columns={2} ref="list"
-					 containerStyle={{ padding: 5 }}				
-					 renderItem={item =>
-						<View>
-							<TouchableOpacity
-							  onPress={() => {
-								setTimeout(()=>{
-								  this.setState({
-									loading: true
-								  })
-								},300)
-								  this.setState({
-									  imageIndex: item.index,
-									  modalVisible: true,
-								   
-								  });
-							  }}
-							>
-							<View
-								style={{
-									margin: 5,
-									backgroundColor: "#fff",
-									borderRadius: 5,
-									overflow: "hidden",
-									borderWidth: 1,
-									borderColor: "#dedede",                                
-								}}>
-								<Image source={{ uri: item.url}}
-								    style={{
-									height: item.height_image,
-									width: columnWidth,
-									resizeMode: 'stretch' }}/>	
-								
-					      	</View>
-							 
-						 </TouchableOpacity>					
-						 </View>
+		{
+			this.props.alerta ?
+			<Alerta alerta={this.props.alerta}/>  
+			:
+			null
+		}
 
-						 
-						 
-						}
-                />
-
-			<Modal
-				visible={this.state.modalVisible}
-				transparent={true}
-				onRequestClose={() => this.setState({ modalVisible: false })}      
+		<Masonry onMomentumScrollEnd={this.onScrollEnd.bind( this )}
+		style={{ flex: 1}}
+		columns={2} ref="list"
+		containerStyle={{ padding: 5 }}				
+		renderItem={item =>
+			<View>
+				<TouchableOpacity
+					onPress={() => {
+					setTimeout(()=>{
+						this.setState({
+						loading: true
+						})
+					},300)
+						this.setState({
+							imageIndex: item.index,
+							modalVisible: true,
+						
+						});
+					}}
 				>
+				<View
+					style={{
+						margin: 5,
+						backgroundColor: "#fff",
+						borderRadius: 5,
+						overflow: "hidden",
+						borderWidth: 1,
+						borderColor: "#dedede",                                
+					}}>
+					<Image source={{ uri: item.url}}
+						style={{
+						height: item.height_image,
+						width: columnWidth,
+						resizeMode: 'stretch' }}/>	
+					
+				</View>
+				
+				</TouchableOpacity>					
+			</View>		
+				
 			
-				{/* <Text>Cerrar</Text> */}
-					<ImageViewer
-					imageUrls={this.props.list}
-					index={this.state.imageIndex}
-					enableSwipeDown={true}
-					renderIndicator={() => null}
-					onSwipeDown={() => {
-						this.setState({ modalVisible: false })
-					}}  
-					// renderHeader={(index) => <Text style={styles.headerImage}>{images[index].props.title}</Text>}           
-					
-					
-					/>
-					{
-					this.state.loading &&
-					<CloseModalX close={this.closeModal} />
-					}
-			</Modal>
+			}
+		/>
+
+		
+		
+
+	
               
      
 		</View>

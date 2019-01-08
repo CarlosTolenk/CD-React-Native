@@ -127,14 +127,17 @@ class Home extends Component {
 
         this.unsubscribe = this.alerta.onSnapshot((querySnapshot) =>{
             let allAlertas = [];
+            let alertaSingle
             querySnapshot.forEach((doc) =>{
                allAlertas.push(doc.data());
-              });      
+              });     
+
+              alertaSingle =  allAlertas[0];       
   
               this.props.dispatch({
                   type: 'SET_ALERTA_LIST',
                   payload: {
-                    allAlertas
+                    alertaSingle
                   }
               })
           });   

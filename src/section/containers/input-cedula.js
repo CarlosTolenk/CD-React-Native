@@ -191,7 +191,7 @@ class InputCedula extends Component {
                 maxLength = {13}
                 clearTextOnFocus = {true}
                 onEndEditing ={this.endCedulaEditing}
-                placeholder='031-1234567-6'
+                placeholder='Ej: 031-1234567-6'
                 placeholderTextColor = '#888'
                 keyboardType="number-pad"      
                 underlineColorAndroid = {this.state.color}

@@ -6,11 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
-  ScrollView,
-  TouchableNativeFeedback,
-  StatusBar,
-  Button,
-  BackHandler,
+  ScrollView 
 } from 'react-native';
 
 //Plugin

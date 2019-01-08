@@ -65,6 +65,7 @@ class WebPaypal extends Component {
           amount: item.amount,
           suscription: item.suscription,
           client: item.client,
+          identificacion: item.identificacion,    
           cedula: item.cedula,
           movil: item.movil,
           sku: item.sku

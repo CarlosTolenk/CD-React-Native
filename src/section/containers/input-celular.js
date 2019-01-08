@@ -237,7 +237,7 @@ class InputCell extends Component {
                   onFocus={this.props.onFocusInput} 
                   clearTextOnFocus = {true}
                   onEndEditing ={this.endCellEditing}
-                  placeholder='809-555-5555' 
+                  placeholder='Ej: 809-555-5555' 
                   placeholderTextColor = '#888'
                   keyboardType="number-pad"      
                   underlineColorAndroid = {this.state.color}

@@ -66,7 +66,7 @@ class InputNombre extends Component {
     render() {
         return(
             <View style={styles.container}>
-             <Text style={styles.title}>Ingrese su nombre:</Text>
+             <Text style={styles.title}>Ingrese su nombre completo:</Text>
              <View style={styles.containerTextInput}> 
                 <Icon style={styles.Icon} name="account" size={30} color={this.state.color}/>  
                 <TextInput       
@@ -76,7 +76,7 @@ class InputNombre extends Component {
                 editable = {true}   
                 clearTextOnFocus = {true}
                 onEndEditing ={this.endNombreEditing}
-                placeholder='Joseph Tavárez'
+                placeholder='Ej: Joseph Tavárez'
                 placeholderTextColor = '#888'           
                 underlineColorAndroid = {this.state.color}
                 style={styles.input}   

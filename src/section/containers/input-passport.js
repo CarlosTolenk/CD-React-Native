@@ -92,7 +92,7 @@ class InputPassporte extends Component {
                 editable = {true}           
                 clearTextOnFocus = {true}
                 onEndEditing ={this.endCedulaEditing}
-                placeholder='G-568568-6'
+                placeholder='Ej: G-568568-6'
                 placeholderTextColor = '#888'                 
                 underlineColorAndroid = {this.state.color}
                 style={styles.input}   

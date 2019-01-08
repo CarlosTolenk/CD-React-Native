@@ -6,7 +6,10 @@ import {
     StyleSheet,
     ActivityIndicator
 } from "react-native";
+
+//Plugin
 import { connect } from 'react-redux';
+import firebase from 'react-native-firebase';
 
 //Component
 import CardView from 'react-native-cardview';
@@ -16,14 +19,15 @@ import moment from 'moment';
 let dateOn = '';
 let dateInFuture = '';
 let countDown;
-let timer
+let timer;
+let alertaSingle;
 
 
-function mapStateToProps(state) {
-    return{
-        alerta: state.planes.allAlertas
-    }
-}
+// function mapStateToProps(state) {
+//     return{
+//         alerta: state.planes.alertaSingle
+//     }
+// }
 
 class Alerta extends Component {
     constructor(props) {
@@ -33,30 +37,39 @@ class Alerta extends Component {
             minutes: 0,
             milliseconds: -1,
             loading: true
-        }     
-      
+        }        
     }
 
-    componentDidMount(){
-        // Obteniendo el Timer de BD
-        dateOn = this.props.alerta[0].updateTimestamp
+    componentWillMount(){
+
+        // Obteniendo el Timer de BD    
+        alertaSingle = this.props.alerta;
+        console.log('MOstrando la informacion:' + this.props.alerta);     
+        dateOn = alertaSingle.updateTimestamp;     
         let countDown = moment(dateOn).format('YYYY-MM-DD hh:mm:ss');
-        // console.log(countDown);  
+        // console.log(countDown);   
 
         // Sumando 12 h al Timmer
         // console.log('Sumandoooo....!!')
-        dateInFuture = moment(dateOn).add(35, 'minutes');
-        // console.log(dateInFuture);   
+        dateInFuture = moment(dateOn).add(5, 'hours'); 
+        console.log(dateInFuture);        
+
+
         
         //Obtener el CountDown
         let onTime = new moment()  
         //Obtener el CountDown          
         countDown = moment.duration(dateInFuture.diff(onTime));  
-        this.startInterval(countDown._data.milliseconds)   
-
+        this.startInterval(countDown._data.milliseconds)          
     }
 
+    // componentDidMount(){
+   
+
+    // }
+
     startInterval(start){
+        console.log("Timer Functions")
         if(start > 0 ){
             timer = setInterval( ()=> {
                 let onTime = new moment()  
@@ -67,29 +80,28 @@ class Alerta extends Component {
                     minutes: countDown._data.minutes,
                     milliseconds: countDown._data.milliseconds
                 })                  
-                // console.log(this.state.minutes);
-            },10000)
+                console.log(this.state.minutes);
+            },10000)      
         }else{
             // console.log("No se inicio el timmer");
             this.setState({
                 loading: false
             })
         }     
-    }
+    } 
        
 
-    componentWillUnmount() {
-        console.log('COMPONENTWILLUNMOUNT')
+    componentWillUnmount() {   
+
       clearInterval(timer); 
     }
 
     render() {
-        const alerta = this.props.alerta[0];
+        const alerta = alertaSingle; 
 
-        return(
-
-            <View style={styles.container}>      
-                {
+        return(              
+            <View style={styles.container}> 
+                {                  
                     this.state.milliseconds >= 0 ?
                         <CardView
                         cardElevation={4}
@@ -119,8 +131,8 @@ class Alerta extends Component {
                     //  <View style={styles.indicatorFlat}>
                         // <ActivityIndicator size="large" color="#1565c0" animating={false} />
               
-                    
-                    
+                        
+      
                     
                 }              
              </View>          
@@ -170,4 +182,4 @@ const styles = StyleSheet.create({
   })
 
 
-export default connect(mapStateToProps) (Alerta)
+export default connect(null) (Alerta)
