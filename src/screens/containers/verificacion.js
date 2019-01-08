@@ -199,8 +199,7 @@ const styles = StyleSheet.create({
     container: {
       flex:1,
       padding: 10,
-      backgroundColor: '#fefefe',
-     
+      backgroundColor: '#fefefe',     
     },
     cardView:{
       padding:5,  
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
       flex:1,
       flexDirection: 'row',
       justifyContent: 'space-between',   
-      padding: 10,  
+      padding: 5,  
     },
     titleHeader:{  
       flexDirection: 'row',
@@ -239,8 +238,7 @@ const styles = StyleSheet.create({
       fontSize: 20,     
       color: '#626364',
       fontWeight: '400',
-      marginTop: 10,
-      marginRight: 10,
+      marginVertical: 10,
       flexWrap: 'wrap',
       flexGrow: 1,   
     },
