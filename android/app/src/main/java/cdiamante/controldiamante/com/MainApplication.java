@@ -19,8 +19,10 @@ import com.facebook.soloader.SoLoader;
 import com.kishanjvaghela.cardview.RNCardViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.brentvatne.react.ReactVideoPackage;
-import com.github.yamill.orientation.OrientationPackage; 
+import com.github.yamill.orientation.OrientationPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+
 
 
 //END NECESSARY
@@ -58,11 +60,11 @@ public class MainApplication extends Application implements ReactApplication {
 
     @SuppressLint("MissingPermission")
     @Override
-    protected List<ReactPackage> getPackages() {   
-    
+    protected List<ReactPackage> getPackages() {
+
 
       return Arrays.asList(
-        new MainReactPackage(),     
+        new MainReactPackage(),
 
         //Necesarry
         new RNGestureHandlerPackage(),
@@ -70,9 +72,10 @@ public class MainApplication extends Application implements ReactApplication {
         new RNFirebasePackage(),
         new VectorIconsPackage(),
         new ReactVideoPackage(),
-        new OrientationPackage(),        
+        new OrientationPackage(),
+        new SplashScreenReactPackage(),
 
-        
+
         // add/remove these packages as appropriate
         new RNFirebaseAdMobPackage(),
         new RNFirebaseAnalyticsPackage(),
@@ -107,7 +110,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-  } 
+  }
 
 
 }

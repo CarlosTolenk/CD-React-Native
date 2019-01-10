@@ -20,9 +20,9 @@ import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import IconF from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 
-const url = 'https://api-crm-control-diamante.herokuapp.com/api/register-payment';
+const url = 'http://159.65.111.29/api/register-payment';
 // const urlPay = 'https://www.google.com/';
-const urlPay = 'https://api-crm-control-diamante.herokuapp.com/api/payment-paypal';
+const urlPay = 'http://159.65.111.29/api/payment-paypal';
 const injectJS = "document.querySelector('h1').style.backgroundColor = 'red';";
 let webViewStatus = true;
 

@@ -3,10 +3,12 @@ package cdiamante.controldiamante.com;
 import com.facebook.react.ReactActivity;
 
 import android.content.Intent;
-import android.content.res.Configuration; 
+import android.content.res.Configuration;
 
 import android.os.Bundle;
-// import org.devio.rn.splashscreen.SplashScreen;
+import org.devio.rn.splashscreen.SplashScreen;
+
+
 
 public class MainActivity extends ReactActivity {
 
@@ -15,12 +17,12 @@ public class MainActivity extends ReactActivity {
      * This is used to schedule rendering of the component.
      */
 
-    // @Override
-    // protected void onCreate(Bundle savedInstanceState) {
-    //   SplashScreen.show(this);  // here
-    //   super.onCreate(savedInstanceState);
-    //   // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-    // }
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+       SplashScreen.show(this);  // here
+       super.onCreate(savedInstanceState);
+       // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+     }
 
     @Override
     protected String getMainComponentName() {
@@ -39,11 +41,11 @@ public class MainActivity extends ReactActivity {
 //   public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 //      super.onActivityResult(requestCode, resultCode, data);
 //      if (requestCode == PAY_PAL_REQUEST_ID) {
-//          payPalPackage.handleActivityResult(requestCode, resultCode, data); 
+//          payPalPackage.handleActivityResult(requestCode, resultCode, data);
 //      } else {
 //          otherModulesHandlers(requestCode, resultCode, data);
 //      }
 //   }
 
- 
+
 }

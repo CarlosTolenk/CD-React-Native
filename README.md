@@ -25,3 +25,8 @@ cd android && ./gradlew assembleRelease
 
 ##Compilar todas los assets
 react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index --assets-dest android/app/src/main/res
+
+
+
+
+

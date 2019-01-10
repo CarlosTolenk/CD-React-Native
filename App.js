@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from './store';
-// import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-splash-screen';
 // import Orientation from 'react-native-orientation';
 
 //Components
@@ -19,19 +19,11 @@ export default class App extends Component {
 
     constructor(props) {
       super(props);  
+      SplashScreen.hide();    
     };
 
-    componentDidMount(){
-      // SplashScreen.hide();    
-      // Orientation.lockToPortrait();
-      // const channel = new firebase.notifications.Android.Channel(
-      //   'channelId',
-      //   'Channel Name',
-      //   firebase.notifications.Android.Importance.Max
-      // ).setDescription('A natural description of the channel');
-      // firebase.notifications().android.createChannel(channel);
-
-      
+    componentWillMount(){
+      SplashScreen.hide();         
     }
 
   render() {
