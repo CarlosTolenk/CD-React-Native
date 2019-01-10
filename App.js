@@ -18,16 +18,16 @@ import AppNavigationWithState from './src/app-navigator-with-state'
 export default class App extends Component {
 
     constructor(props) {
-      super(props);  
-      SplashScreen.hide();    
+      super(props);   
     };
 
-    componentWillMount(){
-      SplashScreen.hide();         
+    componentDidMount() {
+      SplashScreen.hide()
     }
 
-  render() {
 
+  render() {
+  
     console.disableYellowBox = true;
 
     return (         
@@ -35,7 +35,8 @@ export default class App extends Component {
           store={store} 
         >    
           <PersistGate
-            loading={<Loading/>}
+            loading={<Loading/>}          
+    
             persistor={persistor}
           >
             <AppNavigationWithState />          

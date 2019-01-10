@@ -11,9 +11,11 @@ android:gravity="center" >
   android:layout_height="200dp"
   android:layout_gravity="center"
   android:src="@mipmap/icon"
-
-
-
   />
+  <TextView
+        android:id="@+id/text_view_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="LA MARCA DEL ÉXITO!" />
 
 </LinearLayout>

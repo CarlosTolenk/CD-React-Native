@@ -262,6 +262,7 @@ class WebPaypal extends Component {
               javaScriptEnabled={true}
               domStorageEnabled={true}
               startInLoadingState={true}       
+              domStorageEnabled={false}
               onMessage={(event)=> console.log(event.nativeEvent.data)} 
               onNavigationStateChange={this.handleNavigationChange.bind(this)}
               // injectedJavaScript={injectJS}

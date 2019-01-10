@@ -5,9 +5,10 @@ buildscript {
     minSdkVersion = 18
     compileSdkVersion = 27
     targetSdkVersion = 26
-    supportLibVersion = "27.1.1"
+    // supportLibVersion = "27.1.1"
   }
   repositories {
+    // buildDir = "C:/tmp/${rootProject.name}/${project.name}"
     google()
     jcenter()
     maven {
@@ -36,16 +37,16 @@ allprojects {
   }
 }
 
-// subprojects {
-//     afterEvaluate {project ->
-//         if (project.hasProperty("android")) {
-//             android {
-//                 compileSdkVersion rootProject.ext.compileSdkVersion
-//                 buildToolsVersion rootProject.ext.buildToolsVersion
-//             }
-//         }
-//     }
-// }
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                buildToolsVersion rootProject.ext.buildToolsVersion
+            }
+        }
+    }
+}
 
 
 task wrapper(type: Wrapper) {
